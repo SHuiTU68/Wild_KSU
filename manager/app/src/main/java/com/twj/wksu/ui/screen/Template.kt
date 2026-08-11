@@ -292,7 +292,9 @@ private fun TopBar(
                     contentDescription = stringResource(id = R.string.app_profile_import_export)
                 )
 
-                DropdownMenu(expanded = showDropdown, onDismissRequest = {
+                DropdownMenu(
+                        containerColor = Color.Transparent,
+                            expanded = showDropdown, onDismissRequest = {
                     showDropdown = false
                 }) {
                     DropdownMenuItem(text = {

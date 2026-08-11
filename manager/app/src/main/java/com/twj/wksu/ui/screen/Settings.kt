@@ -212,7 +212,7 @@ private fun KernelFeaturesCard(
     val selinuxHideSupported = selinuxHideStatus == "supported"
     val avcSpoofSupported = avcSpoofStatus == "supported"
 
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
         Column(
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -399,7 +399,7 @@ private fun SecurityCard(
     navigator: DestinationsNavigator,
     loadingDialog: LoadingDialogHandle
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
         Column(
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -494,7 +494,7 @@ private fun AppSettingsCard(
     scope: kotlinx.coroutines.CoroutineScope,
     context: android.content.Context
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
         Column(
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)

@@ -479,6 +479,7 @@ fun ModuleRepoScreen(navigator: DestinationsNavigator) {
                             contentDescription = stringResource(id = R.string.settings)
                         )
                         DropdownMenu(
+                        containerColor = Color.Transparent,
                             expanded = showDropdown,
                             onDismissRequest = {
                                 showDropdown = false
@@ -707,6 +708,7 @@ private fun ModuleRepoCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         modifier = modifier
             .fillMaxWidth()
             .clickable { onCardClick() }

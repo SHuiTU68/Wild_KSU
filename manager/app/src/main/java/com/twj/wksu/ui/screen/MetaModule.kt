@@ -359,6 +359,7 @@ private fun MetaModuleCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         modifier = modifier
             .fillMaxWidth()
             .clickable { onCardClick() }

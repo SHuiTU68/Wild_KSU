@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -75,6 +76,7 @@ fun RootProfileConfig(
                     },
                 )
                 ExposedDropdownMenu(
+                            containerColor = Color.Transparent,
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {

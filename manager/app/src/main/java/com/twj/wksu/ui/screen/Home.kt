@@ -721,7 +721,9 @@ private fun TopBar(
                         contentDescription = stringResource(id = R.string.reboot)
                     )
 
-                    DropdownMenu(expanded = showDropdown, onDismissRequest = {
+                    DropdownMenu(
+                        containerColor = Color.Transparent,
+                            expanded = showDropdown, onDismissRequest = {
                         showDropdown = false
                     }) {
                         RebootDropdownItem(id = R.string.reboot)

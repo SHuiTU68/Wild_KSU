@@ -5,8 +5,8 @@
   <string name="issue_report_body_2">Zgłoś to jak najszybciej!</string>
   <string name="issue_report_github">Zgłoś na GitHub</string>
   <string name="issue_report_telegram">Kontakt przez Telegram</string>
-  <string name="issue_report_github_link">https://github.com/KernelSU-Next/KernelSU-Next/issues</string>
-  <string name="issue_report_telegram_link">https://t.me/ksunext</string>
+  <string name="issue_report_github_link">https://github.com/WildKernels/Wild_KSU/issues</string>
+  <string name="issue_report_telegram_link">https://t.me/WildKernels/73910</string>
   <string name="confirm">Potwierdź</string>
   <string name="home">Strona główna</string>
   <string name="home_not_installed">Nie zainstalowany</string>
@@ -14,7 +14,7 @@
   <string name="home_working">Działa</string>
   <string name="home_module_update_count">Aktualizacje: %d</string>
   <string name="home_failure">Nieobsługiwany | Niezintegrowany</string>
-  <string name="home_failure_tip">Jądra Non-GKI nie są obsługiwane. Zintegruj sterownik z brancha legacy KernelSU-Next ze swoim jądrem!</string>
+  <string name="home_failure_tip">Non-GKI kernels are not supported. Integrate Wild KSU legacy driver in your kernel!</string>
   <string name="home_kernel">Wersja jądra</string>
   <string name="hook_mode">Tryb przechwytywania</string>
   <string name="enable">Włącz</string>
@@ -235,11 +235,11 @@
   <string name="settings_enable_avc_spoof">Sproofowanie AVC</string>
   <string name="settings_enable_avc_spoof_summary">Naprawa wycieku kontekstu SELinux spowodowanego odmową AVC w logu audytu.</string>
   <string name="manage_repositories">Zarządzaj repozytoriami</string>
-  <string name="app_name">KernelSU-Next</string>
-  <string name="require_kernel_version">Aktualna wersja KernelSU-Next %1$d jest zbyt niska, aby menedżer działał poprawnie. Uaktualnij do wersji %2$d lub wyższej!</string>
-  <string name="profile_umount_modules_summary">Włączenie tej opcji pozwoli KernelSU-Next przywrócić zmodyfikowane pliki przez moduły dla tej aplikacji.</string>
-  <string name="settings_uninstall_temporary_message">Tymczasowo odinstaluj KernelSU-Next, przywróć do stanu oryginalnego po następnym restarcie.</string>
-  <string name="settings_uninstall_permanent_message">Odinstaluj KernelSU-Next (root i wszystkie moduły) całkowicie i nieodwracalnie.</string>
+  <string name="app_name">Wild KSU</string>
+  <string name="require_kernel_version">The current Wild KSU version %1$d is too low for the manager to work properly. Please upgrade to version %2$d or higher!</string>
+  <string name="profile_umount_modules_summary">Enabling this option will allow Wild KSU to restore any modified files by the modules for this app.</string>
+  <string name="settings_uninstall_temporary_message">Temporarily uninstall Wild KSU, restore to original state after next reboot.</string>
+  <string name="settings_uninstall_permanent_message">Uninstalling Wild KSU (root and all modules) completely and permanently.</string>
   <string name="settings_restore_stock_image_message">Przywróć domyślny obraz fabryczny (jeżeli istnieje), zwykle używany przed OTA; jeśli chcesz odinstalować KernelSU-Next, użyj \"Odinstaluj na stałe\".</string>
   <string name="backup_success">Kopia zapasowa ukończona pomyślnie</string>
   <string name="backup_failed">Nie udało się wykonać kopii zapasowej</string>

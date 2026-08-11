@@ -681,7 +681,7 @@ private fun TopBar(
                 }
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_ksu_next),
+                    painter = painterResource(R.drawable.cannabis_24),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(end = 8.dp)

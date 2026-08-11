@@ -14,7 +14,7 @@
   <string name="home_working">Працює</string>
   <string name="home_module_update_count">Оновлень: %d</string>
   <string name="home_failure">Не підтримується | Не інтегрований</string>
-  <string name="home_failure_tip">Ядра без підтримки GKI не підтримуються. Інтегруйте legacy драйвер KernelSU-Next у своє ядро!</string>
+  <string name="home_failure_tip">Non-GKI kernels are not supported. Integrate Wild KSU legacy driver in your kernel!</string>
   <string name="home_kernel">Версія ядра</string>
   <string name="hook_mode">Режим хука</string>
   <string name="enable">Ввімкнути</string>
@@ -237,11 +237,11 @@
   <string name="settings_enable_avc_spoof">AVC Підміна</string>
   <string name="settings_enable_avc_spoof_summary">Виправити витік контексту selinux викликаний відхиленням avc в журналі аудиту.</string>
   <string name="manage_repositories">Керування репозиторіями</string>
-  <string name="app_name">KernelSU-Next</string>
-  <string name="require_kernel_version">Поточна версія KernelSU Next %1$d надто низька для коректної роботи менеджера. Будь ласка, оновіться до версії %2$d або вище!</string>
-  <string name="profile_umount_modules_summary">Увімкнення цієї опції дозволить KernelSU-Next відновлювати для цього додатка будь-які файли, змінені модулями.</string>
-  <string name="settings_uninstall_temporary_message">Тимчасово видалити KernelSU-Next, відновити початковий стан після наступного перезавантаження.</string>
-  <string name="settings_uninstall_permanent_message">Повне та остаточне видалення KernelSU Next (Root та всіх модулів).</string>
+  <string name="app_name">Wild KSU</string>
+  <string name="require_kernel_version">The current Wild KSU version %1$d is too low for the manager to work properly. Please upgrade to version %2$d or higher!</string>
+  <string name="profile_umount_modules_summary">Enabling this option will allow Wild KSU to restore any modified files by the modules for this app.</string>
+  <string name="settings_uninstall_temporary_message">Temporarily uninstall Wild KSU, restore to original state after next reboot.</string>
+  <string name="settings_uninstall_permanent_message">Uninstalling Wild KSU (root and all modules) completely and permanently.</string>
   <string name="settings_restore_stock_image_message">Відновити стоковий заводський образ (якщо існує резервна копія), зазвичай використовується перед OTA; якщо вам потрібно видалити KernelSU-Next, будь ласка, використовуйте «Видалити назавжди».</string>
   <string name="backup_success">Резервне копіювання успішно завершене</string>
   <string name="backup_failed">Помилка резервного копіювання</string>

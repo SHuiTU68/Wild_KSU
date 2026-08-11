@@ -5,8 +5,8 @@
   <string name="issue_report_body_2">هر چه سریعتر گزارش دهید!</string>
   <string name="issue_report_github">گزارش در گیت هاب</string>
   <string name="issue_report_telegram">تماس از طریق تلگرام</string>
-  <string name="issue_report_github_link">https://github.com/KernelSU-Next/KernelSU-Next/issues</string>
-  <string name="issue_report_telegram_link">https://t.me/ksunext</string>
+  <string name="issue_report_github_link">https://github.com/WildKernels/Wild_KSU/issues</string>
+  <string name="issue_report_telegram_link">https://t.me/WildKernels/73910</string>
   <string name="confirm">تأیید</string>
   <string name="home">خانه</string>
   <string name="home_not_installed">نصب نشده</string>
@@ -14,7 +14,7 @@
   <string name="home_working">درحال انجام</string>
   <string name="home_module_update_count">به روزرسانی ها: %d</string>
   <string name="home_failure">پشتیبانی نشده | ادغام نشده</string>
-  <string name="home_failure_tip">کرنل‌های غیر GKI پشتیبانی نمی شوند. درایور KernelSU-Next Legacy را در کرنل خود ادغام کنید!</string>
+  <string name="home_failure_tip">Non-GKI kernels are not supported. Integrate Wild KSU legacy driver in your kernel!</string>
   <string name="home_kernel">نگارش کرنل</string>
   <string name="hook_mode">حالت هوک</string>
   <string name="enable">فعال</string>
@@ -235,11 +235,11 @@
   <string name="settings_enable_avc_spoof">جعل AVC</string>
   <string name="settings_enable_avc_spoof_summary">رفع نشت Context مربوط به Selinux که بر اثر Avc denial در گزارش Audit ایجاد میشود.</string>
   <string name="manage_repositories">مدیریت مخازن</string>
-  <string name="app_name">KernelSU-Next</string>
-  <string name="require_kernel_version">نسخه فعلی KernelSU-Next %1$d برای عملکرد صحیح مدیریت، بسیار ضعیف است. لطفاً به نسخه %2$d یا بالاتر ارتقا دهید!</string>
-  <string name="profile_umount_modules_summary">فعال کردن این گزینه به KernelSU-Next اجازه می‌دهد تا هرگونه فایل تغییر یافته توسط ماژول‌های این برنامه را بازیابی کند.</string>
-  <string name="settings_uninstall_temporary_message">KernelSU-Next را موقتاً حذف نصب کنید، سپس پس از راه‌اندازی مجدد بعدی، سیستم را به حالت اولیه بازگردانید.</string>
-  <string name="settings_uninstall_permanent_message">حذف کامل و دائمی KernelSU-Next (روت و تمام ماژول‌ها).</string>
+  <string name="app_name">Wild KSU</string>
+  <string name="require_kernel_version">The current Wild KSU version %1$d is too low for the manager to work properly. Please upgrade to version %2$d or higher!</string>
+  <string name="profile_umount_modules_summary">Enabling this option will allow Wild KSU to restore any modified files by the modules for this app.</string>
+  <string name="settings_uninstall_temporary_message">Temporarily uninstall Wild KSU, restore to original state after next reboot.</string>
+  <string name="settings_uninstall_permanent_message">Uninstalling Wild KSU (root and all modules) completely and permanently.</string>
   <string name="settings_restore_stock_image_message">بازیابی فایل ایمیج استاک کارخانه (در صورت وجود نسخه پشتیبان) که معمولاً قبل از OTA استفاده می‌شود؛ اگر نیاز به حذف نصب KernelSU-Next دارید، لطفاً از گزینه «حذف دائمی» استفاده کنید.</string>
   <string name="backup_success">پشتیبان‌گیری با موفقیت انجام شد</string>
   <string name="backup_failed">پشتیبان‌گیری ناموفق بود</string>

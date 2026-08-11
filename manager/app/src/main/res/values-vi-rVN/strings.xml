@@ -235,11 +235,11 @@
   <string name="settings_enable_avc_spoof">Giả mạo AVC</string>
   <string name="settings_enable_avc_spoof_summary">Khắc phục lỗi rò rỉ ngữ cảnh selinux do từ chối avc gây ra trong nhật ký kiểm tra.</string>
   <string name="manage_repositories">Quản lý Kho</string>
-  <string name="app_name">KernelSU-Next</string>
-  <string name="require_kernel_version">Phiên bản KernelSU-Next hiện tại %1$d quá thấp để trình quản lý có thể hoạt động bình thường. Vui lòng nâng cấp lên phiên bản %2$d hoặc cao hơn!</string>
-  <string name="profile_umount_modules_summary">Bật tùy chọn này sẽ cho phép KernelSU-Next khôi phục bất kỳ tệp nào đã được sửa đổi bởi các mô-đun cho ứng dụng này.</string>
-  <string name="settings_uninstall_temporary_message">Tạm thời gỡ cài đặt KernelSU-Next, khôi phục về trạng thái ban đầu sau lần khởi động lại tiếp theo.</string>
-  <string name="settings_uninstall_permanent_message">Gỡ cài đặt KernelSU-Next (root và tất cả các mô-đun) hoàn toàn và vĩnh viễn.</string>
+  <string name="app_name">Wild KSU</string>
+  <string name="require_kernel_version">The current Wild KSU version %1$d is too low for the manager to work properly. Please upgrade to version %2$d or higher!</string>
+  <string name="profile_umount_modules_summary">Enabling this option will allow Wild KSU to restore any modified files by the modules for this app.</string>
+  <string name="settings_uninstall_temporary_message">Temporarily uninstall Wild KSU, restore to original state after next reboot.</string>
+  <string name="settings_uninstall_permanent_message">Uninstalling Wild KSU (root and all modules) completely and permanently.</string>
   <string name="settings_restore_stock_image_message">Khôi phục về image gốc (nếu có một bản sao lưu tồn tại), thường được sử dụng trước OTA; nếu bạn cần gỡ hẳn KernelSU-Next, hãy sử dụng \"Gỡ cài đặt vĩnh viễn\".</string>
   <string name="backup_success">Sao lưu thành công</string>
   <string name="backup_failed">Sao lưu thất bại</string>

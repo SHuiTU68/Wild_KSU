@@ -286,7 +286,7 @@ const char* get_version_tag(void)
 {
     static struct ksu_get_version_tag_cmd cmd = {0};
 
-    if (ksuctl(KSU_IOCTL_GET_VERSION_TAG, &cmd) == 0)
+    if (ksuctl(KSU_IOCTL_GET_VERSION_TAG, &cmd) == 0 && cmd.tag[0] != '\0')
         return cmd.tag;
 
     return "Unknown";

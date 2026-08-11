@@ -271,8 +271,9 @@ fun HomeScreen(navigator: DestinationsNavigator) {
 private fun SuperuserCard(onClick: (() -> Unit)? = null) {
     val count = getSuperuserCount()
     ElevatedCard(
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = Color.Transparent
         ),
         modifier = Modifier
             .height(IntrinsicSize.Min)
@@ -329,8 +330,9 @@ private fun ModuleCard(onClick: (() -> Unit)? = null) {
     }
 
     ElevatedCard(
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = Color.Transparent
         ),
         modifier = Modifier
             .height(IntrinsicSize.Min)
@@ -449,8 +451,9 @@ fun UpdateCard() {
                     )
                 }
             },
+            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
             colors = CardDefaults.elevatedCardColors(
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = Color.Transparent
             )
         ) {
             Column(
@@ -758,11 +761,8 @@ private fun StatusCard(
     val cardAlpha = LocalUiOverlaySettings.current.cardAlpha
 
     ElevatedCard(
-        colors = CardDefaults.elevatedCardColors(containerColor = run {
-            if (ksuVersionParam != null) MaterialTheme.colorScheme.primaryContainer.copy(alpha = cardAlpha)
-            else if (kernelVersionParam.isGKI()) MaterialTheme.colorScheme.secondaryContainer
-            else MaterialTheme.colorScheme.errorContainer
-        })
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.elevatedCardColors(containerColor = Color.Transparent)
     ) {
         Row(
             modifier = Modifier
@@ -822,7 +822,7 @@ private fun StatusCard(
                                             )
                                         },
                                         style = LabelItemDefaults.style.copy(
-                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                            containerColor = Color.Transparent
                                         )
                                     )
                                     if (isSuCompatDisabled()) {
@@ -843,7 +843,7 @@ private fun StatusCard(
                                                 )
                                             },
                                             style = LabelItemDefaults.style.copy(
-                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                                containerColor = Color.Transparent
                                             )
                                         )
                                     }
@@ -865,7 +865,7 @@ private fun StatusCard(
                                                 )
                                             },
                                             style = LabelItemDefaults.style.copy(
-                                                containerColor = MaterialTheme.colorScheme.errorContainer
+                                                containerColor = Color.Transparent
                                             )
                                         )
                                     }
@@ -933,8 +933,9 @@ fun WarningCard(
     message: String, color: Color = MaterialTheme.colorScheme.error, onClick: (() -> Unit)? = null
 ) {
     ElevatedCard(
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = color
+            containerColor = Color.Transparent
         )
     ) {
         Row(
@@ -975,7 +976,9 @@ private fun InfoCard(autoExpand: Boolean = false) {
         }
     }   
 
-    Card {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1215,7 +1218,9 @@ fun ContributorsCard() {
         )
     )
 
-    Card {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1348,7 +1353,9 @@ fun IssueReportCard() {
     val githubIssueUrl = stringResource(R.string.issue_report_github_link)
     val telegramUrl = stringResource(R.string.issue_report_telegram_link)
 
-    Card {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

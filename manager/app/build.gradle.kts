@@ -138,6 +138,10 @@ dependencies {
     implementation(libs.dev.rikka.rikkax.parcelablelist)
 
     implementation(libs.io.coil.kt.coil.compose)
+    implementation(libs.io.coil.kt.coil.gif)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.google.material)
 
     implementation(libs.kotlinx.coroutines.core)
 

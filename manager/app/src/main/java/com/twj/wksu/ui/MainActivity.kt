@@ -65,7 +65,20 @@ import com.twj.wksu.Natives
 import com.twj.wksu.ksuApp
 import com.twj.wksu.ui.screen.BottomBarDestination
 import com.twj.wksu.ui.screen.FlashIt
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.twj.wksu.ui.theme.AppTheme
 import com.twj.wksu.ui.theme.KernelSUTheme
+import com.twj.wksu.ui.theme.PRIMARY
 import com.twj.wksu.ui.util.*
 import com.twj.wksu.ui.viewmodel.ModuleViewModel
 import com.twj.wksu.ui.viewmodel.SuperUserViewModel
@@ -196,6 +209,8 @@ class MainActivity : ComponentActivity() {
     var navigateLoc by mutableStateOf<NavigateLocation?>(null)
     var moduleActionId by mutableStateOf<String?>(null)
     var amoledModeState = mutableStateOf(false)
+    var appThemeState = mutableStateOf(AppTheme.AUTO)
+    var appThemeCustomColorState = mutableIntStateOf(PRIMARY.toArgb())
     private val handler = Handler(Looper.getMainLooper())
 
     val moduleViewModel: ModuleViewModel by viewModels()
@@ -225,7 +240,12 @@ class MainActivity : ComponentActivity() {
 
         try {
             val prefsInit = getSharedPreferences("settings", MODE_PRIVATE)
+            appThemeState.value = AppTheme.fromValue(prefsInit.getInt("app_theme", 0))
+            appThemeCustomColorState.intValue = prefsInit.getInt("theme_custom_color", PRIMARY.toArgb())
             amoledModeState.value = prefsInit.getBoolean("enable_amoled", false)
+        } catch (_: Exception) {}
+        try {
+            LauncherIconManager.applySaved(this)
         } catch (_: Exception) {}
 
         val isManager = Natives.isManager
@@ -240,9 +260,81 @@ class MainActivity : ComponentActivity() {
             handleIntent(intent)
 
         setContent {
-            KernelSUTheme(amoledMode = amoledModeState.value) {
+            KernelSUTheme(
+                appTheme = appThemeState.value,
+                customColor = Color(appThemeCustomColorState.intValue)
+            ) {
                 val navController = rememberNavController()
                 val snackBarHostState = remember { SnackbarHostState() }
+                val context = LocalContext.current
+                val prefs = remember {
+                    context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+                }
+                var backgroundSettings by remember {
+                    mutableStateOf(
+                        BackgroundSettings(
+                            uri = prefs.getString("background_uri", null),
+                            fillScreen = true,
+                            isVideo = prefs.getBoolean("background_is_video", false)
+                        )
+                    )
+                }
+                var uiOverlaySettings by remember {
+                    mutableStateOf(
+                        UiOverlaySettings(
+                            cardAlpha = run {
+                                val transparencyPercent = if (prefs.contains("ui_card_transparency")) {
+                                    prefs.getInt("ui_card_transparency", 0)
+                                } else {
+                                    100 - prefs.getInt("ui_card_alpha", 100)
+                                }
+                                (1f - (transparencyPercent.coerceIn(0, 100) / 100f))
+                            },
+                            dimAlpha = prefs.getInt("background_dim", 0) / 100f,
+                        )
+                    )
+                }
+                var enableBottomBarPref by remember {
+                    mutableStateOf(prefs.getBoolean("enable_bottom_bar", false))
+                }
+                DisposableEffect(prefs) {
+                    val listener =
+                        android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                            if (key == "app_theme") {
+                                appThemeState.value = AppTheme.fromValue(prefs.getInt("app_theme", 0))
+                            }
+                            if (key == "theme_custom_color") {
+                                appThemeCustomColorState.intValue = prefs.getInt("theme_custom_color", PRIMARY.toArgb())
+                            }
+                            if (key == "background_uri" || key == "background_fill_screen" || key == "background_is_video") {
+                                backgroundSettings = BackgroundSettings(
+                                    uri = prefs.getString("background_uri", null),
+                                    fillScreen = true,
+                                    isVideo = prefs.getBoolean("background_is_video", false),
+                                )
+                            }
+                            if (key == "ui_card_alpha" || key == "ui_card_transparency" || key == "background_dim") {
+                                uiOverlaySettings = UiOverlaySettings(
+                                    cardAlpha = run {
+                                        val transparencyPercent = if (prefs.contains("ui_card_transparency")) {
+                                            prefs.getInt("ui_card_transparency", 0)
+                                        } else {
+                                            100 - prefs.getInt("ui_card_alpha", 100)
+                                        }
+                                        (1f - (transparencyPercent.coerceIn(0, 100) / 100f))
+                                    },
+                                    dimAlpha = prefs.getInt("background_dim", 0) / 100f,
+                                )
+                            }
+                            if (key == "enable_bottom_bar") {
+                                enableBottomBarPref = prefs.getBoolean("enable_bottom_bar", false)
+                            }
+                        }
+                    prefs.registerOnSharedPreferenceChangeListener(listener)
+                    onDispose {
+                        prefs.unregisterOnSharedPreferenceChangeListener(listener)
+                    }
+                }
                 val currentDestination = navController.currentBackStackEntryAsState().value?.destination
                 val bottomBarRoutes = remember {
                     BottomBarDestination.entries.map { it.direction.route }.toSet()
@@ -334,21 +426,45 @@ class MainActivity : ComponentActivity() {
                 val showBottomBar = when (currentDestination?.route) {
                     FlashScreenDestination.route -> false // Hide for FlashScreenDestination
                     ExecuteModuleActionScreenDestination.route -> false // Hide for ExecuteModuleActionScreen
-                    else -> !isScrollingDown.value
+                    else -> enableBottomBarPref || !isScrollingDown.value
                 }
 
+                val baseScheme = MaterialTheme.colorScheme
+                val cardAlpha = uiOverlaySettings.cardAlpha.coerceIn(0f, 1f)
+                val scheme = remember(baseScheme, cardAlpha) {
+                    baseScheme.copy(
+                        surface = baseScheme.surface.copy(alpha = cardAlpha),
+                        surfaceVariant = baseScheme.surfaceVariant.copy(alpha = cardAlpha),
+                        surfaceContainerLowest = baseScheme.surfaceContainerLowest.copy(alpha = cardAlpha),
+                        surfaceContainerLow = baseScheme.surfaceContainerLow.copy(alpha = cardAlpha),
+                        surfaceContainer = baseScheme.surfaceContainer.copy(alpha = cardAlpha),
+                        surfaceContainerHigh = baseScheme.surfaceContainerHigh.copy(alpha = cardAlpha),
+                        surfaceContainerHighest = baseScheme.surfaceContainerHighest.copy(alpha = cardAlpha),
+                    )
+                }
                 Scaffold(
+                    containerColor = Color.Transparent,
                     contentWindowInsets = WindowInsets(0, 0, 0, 0)
                 ) { innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) {
+                        AppBackground(modifier = Modifier.fillMaxSize())
                         CompositionLocalProvider(
                             LocalSnackbarHost provides snackBarHostState,
                             LocalScrollState provides ScrollState(
                                 isScrollingDown = isScrollingDown,
                                 scrollOffset = scrollOffset,
                                 previousScrollOffset = previousScrollOffset
-                            )
+                            ),
+                            LocalBackgroundSettings provides backgroundSettings,
+                            LocalUiOverlaySettings provides uiOverlaySettings,
+                            LocalEnableBottomBar provides enableBottomBarPref,
                         ) {
+                            CompositionLocalProvider(LocalBaseColorScheme provides baseScheme) {
+                                MaterialTheme(
+                                    colorScheme = scheme,
+                                    typography = MaterialTheme.typography,
+                                    shapes = MaterialTheme.shapes,
+                                ) {
                             val visibleDestinations = remember(fullFeatured) {
                                 BottomBarDestination.entries.filter { fullFeatured || !it.rootRequired }
                             }
@@ -467,6 +583,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             )
+                                }
+                            }
                         }
                         
                         // Floating Bottom Bar as overlay
@@ -734,4 +852,102 @@ private fun BottomBar(
             }
         }
     }
+}
+@Composable
+private fun AppBackground(modifier: Modifier = Modifier) {
+    val backgroundSettings = LocalBackgroundSettings.current
+    val uiOverlaySettings = LocalUiOverlaySettings.current
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val baseColor = MaterialTheme.colorScheme.background
+
+    val contentScale = if (backgroundSettings.fillScreen) {
+        ContentScale.Crop
+    } else {
+        ContentScale.Fit
+    }
+
+    Box(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(baseColor)
+        )
+
+    val uri = backgroundSettings.uri
+    if (uri != null) {
+            if (backgroundSettings.isVideo) {
+                VideoBackground(
+                    uri = uri,
+                    fillScreen = backgroundSettings.fillScreen,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(android.net.Uri.parse(uri))
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = contentScale,
+                )
+            }
+
+            val dimAlpha = uiOverlaySettings.dimAlpha.coerceIn(0f, 1f)
+            if (dimAlpha > 0f) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = dimAlpha))
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun VideoBackground(
+    uri: String,
+    fillScreen: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val exoPlayer = remember(uri) {
+        ExoPlayer.Builder(context)
+            .build()
+            .apply {
+                repeatMode = Player.REPEAT_MODE_ONE
+                volume = 0f
+                playWhenReady = true
+                setMediaItem(MediaItem.fromUri(android.net.Uri.parse(uri)))
+                prepare()
+            }
+    }
+
+    DisposableEffect(exoPlayer) {
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    AndroidView(
+        modifier = modifier,
+        factory = { ctx ->
+            PlayerView(ctx).apply {
+                useController = false
+                player = exoPlayer
+                resizeMode = if (fillScreen) {
+                    AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                } else {
+                    AspectRatioFrameLayout.RESIZE_MODE_FIT
+                }
+            }
+        },
+        update = { view ->
+            view.resizeMode = if (fillScreen) {
+                AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            } else {
+                AspectRatioFrameLayout.RESIZE_MODE_FIT
+            }
+        }
+    )
 }

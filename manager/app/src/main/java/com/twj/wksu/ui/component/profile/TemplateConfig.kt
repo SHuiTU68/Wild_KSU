@@ -63,7 +63,7 @@ fun TemplateConfig(
             if (profileTemplates.isEmpty()) {
                 return@ExposedDropdownMenuBox
             }
-            ExposedDropdownMenu(
+            ExposedDropdownMenu(shadowElevation = 0.dp, 
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {

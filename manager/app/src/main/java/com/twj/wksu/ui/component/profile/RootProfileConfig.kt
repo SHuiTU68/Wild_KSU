@@ -74,7 +74,7 @@ fun RootProfileConfig(
                         else Icon(Icons.Filled.ArrowDropDown, null)
                     },
                 )
-                ExposedDropdownMenu(
+                ExposedDropdownMenu(shadowElevation = 0.dp, 
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {

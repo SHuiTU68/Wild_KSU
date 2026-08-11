@@ -412,6 +412,7 @@ private fun ModuleCard(onClick: (() -> Unit)? = null) {
 @Composable
 fun UpdateCard() {
     val context = LocalContext.current
+    val hasWallpaper = LocalBackgroundSettings.current.uri != null
     val latestVersionInfo = LatestVersionInfo()
     
     var preferSpoofed by remember { mutableStateOf(false) }
@@ -502,7 +503,7 @@ fun UpdateCard() {
                             .fillMaxWidth()
                             .height(48.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.12f),
+                                color = if (hasWallpaper) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.12f),
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .padding(4.dp),
@@ -539,7 +540,7 @@ fun UpdateCard() {
                                     .weight(1f)
                                     .fillMaxHeight(),
                                 colors = ButtonDefaults.filledTonalButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.69f),
+                                    containerColor = if (hasWallpaper) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.69f),
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                                 ),
                                 shape = RoundedCornerShape(10.dp)
@@ -589,7 +590,7 @@ fun UpdateCard() {
                                     .weight(1f)
                                     .fillMaxHeight(),
                                 colors = ButtonDefaults.filledTonalButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.69f),
+                                    containerColor = if (hasWallpaper) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.69f),
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                                 ),
                                 shape = RoundedCornerShape(10.dp)
@@ -721,7 +722,7 @@ private fun TopBar(
                         contentDescription = stringResource(id = R.string.reboot)
                     )
 
-                    DropdownMenu(expanded = showDropdown, onDismissRequest = {
+                    DropdownMenu(shadowElevation = 0.dp, expanded = showDropdown, onDismissRequest = {
                         showDropdown = false
                     }) {
                         RebootDropdownItem(id = R.string.reboot)
@@ -759,12 +760,15 @@ private fun StatusCard(
 ) {
     val context = LocalContext.current
     val cardAlpha = LocalUiOverlaySettings.current.cardAlpha
+    val hasWallpaper = LocalBackgroundSettings.current.uri != null
 
     ElevatedCard(
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.elevatedCardColors(containerColor = run {
-            if (ksuVersionParam != null) MaterialTheme.colorScheme.primaryContainer.copy(alpha = cardAlpha)
-            else if (kernelVersionParam.isGKI()) MaterialTheme.colorScheme.secondaryContainer
+            if (ksuVersionParam != null) {
+                if (hasWallpaper) MaterialTheme.colorScheme.primaryContainer
+                else MaterialTheme.colorScheme.primaryContainer.copy(alpha = cardAlpha)
+            } else if (kernelVersionParam.isGKI()) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.errorContainer
         })
     ) {

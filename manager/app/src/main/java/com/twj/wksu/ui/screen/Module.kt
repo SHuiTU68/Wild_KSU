@@ -210,7 +210,7 @@ fun ModuleScreen(navigator: DestinationsNavigator) {
                             imageVector = Icons.Filled.MoreVert,
                             contentDescription = stringResource(id = R.string.settings)
                         )
-                        DropdownMenu(
+                        DropdownMenu(shadowElevation = 0.dp, 
                             expanded = showDropdown,
                             onDismissRequest = {
                                 showDropdown = false

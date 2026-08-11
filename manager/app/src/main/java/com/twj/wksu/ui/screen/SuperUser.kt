@@ -107,7 +107,7 @@ fun SuperUserScreen(navigator: DestinationsNavigator) {
                             contentDescription = stringResource(id = R.string.settings)
                         )
 
-                        DropdownMenu(expanded = showDropdown, onDismissRequest = {
+                        DropdownMenu(shadowElevation = 0.dp, expanded = showDropdown, onDismissRequest = {
                             showDropdown = false
                         }) {
                             DropdownMenuItem(text = {

@@ -351,7 +351,7 @@ private fun AppMenuBox(packageName: String, content: @Composable () -> Unit) {
             (touchPoint.x.toDp()) to (touchPoint.y.toDp())
         }
 
-        DropdownMenu(
+        DropdownMenu(shadowElevation = 0.dp, 
             expanded = expanded,
             offset = DpOffset(offsetX, -offsetY),
             onDismissRequest = {

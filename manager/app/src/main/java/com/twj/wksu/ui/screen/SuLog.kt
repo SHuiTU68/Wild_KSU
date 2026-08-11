@@ -75,6 +75,7 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.twj.wksu.R
 import com.twj.wksu.ui.LocalScrollState
+import com.twj.wksu.ui.util.LocalBackgroundSettings
 import com.twj.wksu.ui.rememberScrollConnection
 import com.twj.wksu.ui.component.SearchAppBar
 import com.twj.wksu.ui.util.SulogEntry
@@ -150,7 +151,7 @@ fun SuLogScreen(
                             contentDescription = stringResource(id = R.string.settings)
                         )
 
-                        DropdownMenu(
+                        DropdownMenu(shadowElevation = 0.dp, 
                             expanded = showFilterMenu,
                             onDismissRequest = { showFilterMenu = false },
                         ) {
@@ -229,7 +230,7 @@ fun SuLogScreen(
                                 trailingContent = {
                                     Box {
                                         Icon(Icons.Filled.ArrowDropDown, null)
-                                        DropdownMenu(
+                                        DropdownMenu(shadowElevation = 0.dp, 
                                             expanded = showFileMenu,
                                             onDismissRequest = { showFileMenu = false }
                                         ) {
@@ -245,7 +246,7 @@ fun SuLogScreen(
                                         }
                                     }
                                 },
-                                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                colors = ListItemDefaults.colors(containerColor = if (LocalBackgroundSettings.current.uri != null) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                         }

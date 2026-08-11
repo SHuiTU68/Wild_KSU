@@ -66,6 +66,7 @@ import com.twj.wksu.ksuApp
 import com.twj.wksu.ui.screen.BottomBarDestination
 import com.twj.wksu.ui.screen.FlashIt
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView

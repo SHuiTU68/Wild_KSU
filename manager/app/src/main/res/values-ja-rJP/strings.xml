@@ -15,6 +15,10 @@
   <string name="home_module_update_count">更新: %d</string>
   <string name="home_failure">非対応 | 統合されていません</string>
   <string name="home_failure_tip">GKI 以外のカーネルは非対応です。KernelSU-Next レガシードライバをカーネルに統合してください！</string>
+  <string name="home_working_version">バージョン: %1$s (%2$d)</string>
+  <string name="home_module_update_count">アップデート: %d</string>
+  <string name="home_failure">未対応 | 統合されていません</string>
+  <string name="home_failure_tip">GKI 以外のカーネルはサポートされていません。Wild KSU レガシードライバをカーネルに統合してください！</string>
   <string name="home_kernel">カーネルバージョン</string>
   <string name="hook_mode">フックモード</string>
   <string name="enable">有効化</string>

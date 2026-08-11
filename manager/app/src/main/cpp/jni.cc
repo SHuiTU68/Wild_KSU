@@ -18,7 +18,7 @@
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_getVersion(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getVersion(JNIEnv *env, jobject) {
     int version = get_version();
     if (version > 0) {
         return version;
@@ -29,21 +29,21 @@ Java_com_rifsxd_ksunext_Natives_getVersion(JNIEnv *env, jobject) {
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_getManagerAppid(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getManagerAppid(JNIEnv *env, jobject) {
     uid_t appid = get_manager_appid();
     return (jint)appid;
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_rifsxd_ksunext_Natives_getHookMode(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getHookMode(JNIEnv *env, jobject) {
     const char* mode = get_hook_mode();
     return env->NewStringUTF(mode);
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_rifsxd_ksunext_Natives_getVersionTag(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getVersionTag(JNIEnv *env, jobject) {
     const char* tag = get_version_tag();
     return env->NewStringUTF(tag);
 }
@@ -51,7 +51,7 @@ Java_com_rifsxd_ksunext_Natives_getVersionTag(JNIEnv *env, jobject) {
 // deprecated
 // extern "C"
 // JNIEXPORT jintArray JNICALL
-// Java_com_rifsxd_ksunext_Natives_getAllowList(JNIEnv *env, jobject) {
+// Java_com_twj_wksu_Natives_getAllowList(JNIEnv *env, jobject) {
 //     struct ksu_get_allow_list_cmd cmd = {};
 //     bool result = get_allow_list(&cmd);
 //     if (result) {
@@ -64,19 +64,19 @@ Java_com_rifsxd_ksunext_Natives_getVersionTag(JNIEnv *env, jobject) {
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_getKernelUAPIVersion(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getKernelUAPIVersion(JNIEnv *env, jobject) {
     return get_kernel_uapi_version();
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_getManagerUAPIVersion(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getManagerUAPIVersion(JNIEnv *env, jobject) {
     return get_manager_uapi_version();
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_getSuperuserCount(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_getSuperuserCount(JNIEnv *env, jobject) {
     struct ksu_new_get_allow_list_cmd cmd = {
         .count = 0
     };
@@ -86,25 +86,25 @@ Java_com_rifsxd_ksunext_Natives_getSuperuserCount(JNIEnv *env, jobject) {
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isSafeMode(JNIEnv *env, jclass clazz) {
+Java_com_twj_wksu_Natives_isSafeMode(JNIEnv *env, jclass clazz) {
     return is_safe_mode();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isLkmMode(JNIEnv *env, jclass clazz) {
+Java_com_twj_wksu_Natives_isLkmMode(JNIEnv *env, jclass clazz) {
     return is_lkm_mode();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isLateLoadMode(JNIEnv *env, jclass clazz) {
+Java_com_twj_wksu_Natives_isLateLoadMode(JNIEnv *env, jclass clazz) {
     return is_late_load_mode();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isManager(JNIEnv *env, jclass clazz) {
+Java_com_twj_wksu_Natives_isManager(JNIEnv *env, jclass clazz) {
     return is_manager();
 }
 
@@ -167,7 +167,7 @@ static void fillArrayWithList(JNIEnv *env, jobject list, int *data, int count) {
 
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_com_rifsxd_ksunext_Natives_getAppProfile(JNIEnv *env, jobject, jstring pkg, jint uid) {
+Java_com_twj_wksu_Natives_getAppProfile(JNIEnv *env, jobject, jstring pkg, jint uid) {
     if (env->GetStringLength(pkg) > KSU_MAX_PACKAGE_NAME) {
         return nullptr;
     }
@@ -265,7 +265,7 @@ Java_com_rifsxd_ksunext_Natives_getAppProfile(JNIEnv *env, jobject, jstring pkg,
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_setAppProfile(JNIEnv *env, jobject clazz, jobject profile) {
+Java_com_twj_wksu_Natives_setAppProfile(JNIEnv *env, jobject clazz, jobject profile) {
     auto cls = env->FindClass("com/rifsxd/ksunext/Natives$Profile");
 
     auto keyField = env->GetFieldID(cls, "name", "Ljava/lang/String;");
@@ -354,76 +354,76 @@ Java_com_rifsxd_ksunext_Natives_setAppProfile(JNIEnv *env, jobject clazz, jobjec
 }
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_uidShouldUmount(JNIEnv *env, jobject thiz, jint uid) {
+Java_com_twj_wksu_Natives_uidShouldUmount(JNIEnv *env, jobject thiz, jint uid) {
     return uid_should_umount(uid);
 }
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isSuEnabled(JNIEnv *env, jobject thiz) {
+Java_com_twj_wksu_Natives_isSuEnabled(JNIEnv *env, jobject thiz) {
     return is_su_enabled();
 }
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_setSuEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+Java_com_twj_wksu_Natives_setSuEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     return set_su_enabled(enabled);
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isZygiskEnabled(JNIEnv *env, jobject) {
+Java_com_twj_wksu_Natives_isZygiskEnabled(JNIEnv *env, jobject) {
     return is_zygisk_enabled();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isKernelUmountEnabled(JNIEnv *env, jobject thiz) {
+Java_com_twj_wksu_Natives_isKernelUmountEnabled(JNIEnv *env, jobject thiz) {
     return is_kernel_umount_enabled();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_setKernelUmountEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+Java_com_twj_wksu_Natives_setKernelUmountEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     return set_kernel_umount_enabled(enabled);
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isAdbRootEnabled(JNIEnv *env, jobject thiz) {
+Java_com_twj_wksu_Natives_isAdbRootEnabled(JNIEnv *env, jobject thiz) {
     return is_adb_root_enabled();
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_setAdbRootEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+Java_com_twj_wksu_Natives_setAdbRootEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     return set_adb_root_enabled(enabled);
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isSelinuxHideEnabled(JNIEnv *env, jobject thiz) {
+Java_com_twj_wksu_Natives_isSelinuxHideEnabled(JNIEnv *env, jobject thiz) {
     return is_selinux_hide_enabled();
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_rifsxd_ksunext_Natives_setSelinuxHideEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+Java_com_twj_wksu_Natives_setSelinuxHideEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     return set_selinux_hide_enabled(enabled);
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_isAvcSpoofEnabled(JNIEnv *env, jobject thiz) {
+Java_com_twj_wksu_Natives_isAvcSpoofEnabled(JNIEnv *env, jobject thiz) {
     return is_avc_spoof_enabled();
 }
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_rifsxd_ksunext_Natives_setAvcSpoofEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+Java_com_twj_wksu_Natives_setAvcSpoofEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     return set_avc_spoof_enabled(enabled);
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_rifsxd_ksunext_Natives_getUserName(JNIEnv *env, jobject thiz, jint uid) {
+Java_com_twj_wksu_Natives_getUserName(JNIEnv *env, jobject thiz, jint uid) {
     struct passwd *pw = getpwuid((uid_t) uid);
     if (pw && pw->pw_name && pw->pw_name[0] != '\0') {
         return env->NewStringUTF(pw->pw_name);

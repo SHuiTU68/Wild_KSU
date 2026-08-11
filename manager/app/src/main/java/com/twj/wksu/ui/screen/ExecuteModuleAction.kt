@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.content.Context
 import android.os.Environment
 import androidx.activity.compose.BackHandler
@@ -93,6 +95,7 @@ fun ExecuteModuleActionScreen(navigator: DestinationsNavigator, moduleId: String
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(
                 isActionRunning = isActionRunning,

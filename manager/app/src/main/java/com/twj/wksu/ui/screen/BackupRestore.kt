@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
@@ -169,6 +171,7 @@ fun BackupRestoreScreen(navigator: DestinationsNavigator) {
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + if (isNavBarHidden) 0.dp else 112.dp
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(
                 onBack = dropUnlessResumed { navigator.popBackStack() },

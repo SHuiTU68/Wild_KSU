@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.content.ClipData
 import android.widget.Toast
 import androidx.compose.animation.*
@@ -87,6 +89,7 @@ fun AppProfileTemplateScreen(
     val listState = rememberLazyListState()
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             val clipboard = LocalClipboard.current
             val context = LocalContext.current

@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -84,6 +86,7 @@ fun TemplateEditorScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             val author =
                 if (initialTemplate.author.isNotEmpty()) "@${initialTemplate.author}" else ""

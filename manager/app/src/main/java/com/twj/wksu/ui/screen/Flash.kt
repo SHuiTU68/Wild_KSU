@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
@@ -216,6 +218,7 @@ fun FlashScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(
                 flashing,

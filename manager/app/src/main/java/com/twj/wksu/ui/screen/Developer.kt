@@ -1,5 +1,7 @@
 package com.twj.wksu.ui.screen
 
+import androidx.compose.ui.graphics.Color
+
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -61,6 +63,7 @@ fun DeveloperScreen(navigator: DestinationsNavigator) {
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + if (isNavBarHidden) 0.dp else 112.dp
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(
                 onBack = dropUnlessResumed { navigator.popBackStack() },

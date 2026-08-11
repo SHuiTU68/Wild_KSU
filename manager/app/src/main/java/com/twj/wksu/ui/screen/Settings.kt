@@ -134,6 +134,7 @@ fun SettingScreen(navigator: DestinationsNavigator) {
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(scrollBehavior = scrollBehavior)
         },

@@ -161,6 +161,7 @@ fun ModuleScreen(navigator: DestinationsNavigator) {
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + if (isNavBarHidden) 0.dp else 112.dp
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             SearchAppBar(
                 title = {

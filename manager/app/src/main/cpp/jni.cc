@@ -185,7 +185,7 @@ Java_com_twj_wksu_Natives_getAppProfile(JNIEnv *env, jobject, jstring pkg, jint 
 
     bool useDefaultProfile = get_app_profile(&profile) != 0;
 
-    auto cls = env->FindClass("com/rifsxd/ksunext/Natives$Profile");
+    auto cls = env->FindClass("com/twj/wksu/Natives$Profile");
     auto constructor = env->GetMethodID(cls, "<init>", "()V");
     auto obj = env->NewObject(cls, constructor);
     auto keyField = env->GetFieldID(cls, "name", "Ljava/lang/String;");
@@ -266,7 +266,7 @@ Java_com_twj_wksu_Natives_getAppProfile(JNIEnv *env, jobject, jstring pkg, jint 
 extern "C"
 JNIEXPORT jboolean JNICALL
 Java_com_twj_wksu_Natives_setAppProfile(JNIEnv *env, jobject clazz, jobject profile) {
-    auto cls = env->FindClass("com/rifsxd/ksunext/Natives$Profile");
+    auto cls = env->FindClass("com/twj/wksu/Natives$Profile");
 
     auto keyField = env->GetFieldID(cls, "name", "Ljava/lang/String;");
     auto currentUidField = env->GetFieldID(cls, "currentUid", "I");

@@ -448,7 +448,6 @@ class MainActivity : ComponentActivity() {
                     contentWindowInsets = WindowInsets(0, 0, 0, 0)
                 ) { innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) {
-                        AppBackground(modifier = Modifier.fillMaxSize())
                         CompositionLocalProvider(
                             LocalSnackbarHost provides snackBarHostState,
                             LocalScrollState provides ScrollState(
@@ -466,6 +465,7 @@ class MainActivity : ComponentActivity() {
                                     typography = MaterialTheme.typography,
                                     shapes = MaterialTheme.shapes,
                                 ) {
+                                AppBackground(modifier = Modifier.fillMaxSize())
                             val visibleDestinations = remember(fullFeatured) {
                                 BottomBarDestination.entries.filter { fullFeatured || !it.rootRequired }
                             }

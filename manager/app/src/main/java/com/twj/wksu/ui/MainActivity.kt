@@ -805,7 +805,7 @@ private fun BottomBar(
                                     modifier = Modifier
                                         .size(itemSize)
                                         .background(
-                                            color = MaterialTheme.colorScheme.secondaryContainer,
+                                            color = Color.Transparent,
                                             shape = RoundedCornerShape(16.dp)
                                         )
                                 )

@@ -668,6 +668,7 @@ private fun TopBar(
     }
 
         TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

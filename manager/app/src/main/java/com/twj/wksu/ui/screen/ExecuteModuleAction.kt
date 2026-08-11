@@ -159,6 +159,7 @@ fun ExecuteModuleActionScreen(navigator: DestinationsNavigator, moduleId: String
 @Composable
 private fun TopBar(isActionRunning: Boolean, onBack: () -> Unit = {}, onSave: () -> Unit = {}) {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = { Text(
                 text = stringResource(R.string.action),
                 style = MaterialTheme.typography.titleLarge,

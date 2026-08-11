@@ -116,6 +116,7 @@ fun SuLogScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SearchAppBar(

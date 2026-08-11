@@ -426,16 +426,34 @@ class MainActivity : ComponentActivity() {
 
                 val baseScheme = MaterialTheme.colorScheme
                 val cardAlpha = uiOverlaySettings.cardAlpha.coerceIn(0f, 1f)
-                val scheme = remember(baseScheme, cardAlpha) {
-                    baseScheme.copy(
-                        surface = baseScheme.surface.copy(alpha = cardAlpha),
-                        surfaceVariant = baseScheme.surfaceVariant.copy(alpha = cardAlpha),
-                        surfaceContainerLowest = baseScheme.surfaceContainerLowest.copy(alpha = cardAlpha),
-                        surfaceContainerLow = baseScheme.surfaceContainerLow.copy(alpha = cardAlpha),
-                        surfaceContainer = baseScheme.surfaceContainer.copy(alpha = cardAlpha),
-                        surfaceContainerHigh = baseScheme.surfaceContainerHigh.copy(alpha = cardAlpha),
-                        surfaceContainerHighest = baseScheme.surfaceContainerHighest.copy(alpha = cardAlpha),
-                    )
+                val hasWallpaper = backgroundSettings.uri != null
+                val scheme = remember(baseScheme, cardAlpha, hasWallpaper) {
+                    if (hasWallpaper) {
+                        baseScheme.copy(
+                            surface = Color.Transparent,
+                            surfaceVariant = Color.Transparent,
+                            surfaceContainerLowest = Color.Transparent,
+                            surfaceContainerLow = Color.Transparent,
+                            surfaceContainer = Color.Transparent,
+                            surfaceContainerHigh = Color.Transparent,
+                            surfaceContainerHighest = Color.Transparent,
+                            primaryContainer = Color.Transparent,
+                            secondaryContainer = Color.Transparent,
+                            tertiaryContainer = Color.Transparent,
+                            errorContainer = Color.Transparent,
+                            outlineVariant = Color.Transparent,
+                        )
+                    } else {
+                        baseScheme.copy(
+                            surface = baseScheme.surface.copy(alpha = cardAlpha),
+                            surfaceVariant = baseScheme.surfaceVariant.copy(alpha = cardAlpha),
+                            surfaceContainerLowest = baseScheme.surfaceContainerLowest.copy(alpha = cardAlpha),
+                            surfaceContainerLow = baseScheme.surfaceContainerLow.copy(alpha = cardAlpha),
+                            surfaceContainer = baseScheme.surfaceContainer.copy(alpha = cardAlpha),
+                            surfaceContainerHigh = baseScheme.surfaceContainerHigh.copy(alpha = cardAlpha),
+                            surfaceContainerHighest = baseScheme.surfaceContainerHighest.copy(alpha = cardAlpha),
+                        )
+                    }
                 }
                 Scaffold(
                     containerColor = Color.Transparent,

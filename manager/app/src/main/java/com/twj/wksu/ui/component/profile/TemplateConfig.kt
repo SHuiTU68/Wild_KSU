@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ReadMore
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.*
@@ -65,7 +64,6 @@ fun TemplateConfig(
                 return@ExposedDropdownMenuBox
             }
             ExposedDropdownMenu(
-                            containerColor = Color.Transparent,
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {

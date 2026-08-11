@@ -352,7 +352,6 @@ private fun AppMenuBox(packageName: String, content: @Composable () -> Unit) {
         }
 
         DropdownMenu(
-                        containerColor = Color.Transparent,
             expanded = expanded,
             offset = DpOffset(offsetX, -offsetY),
             onDismissRequest = {

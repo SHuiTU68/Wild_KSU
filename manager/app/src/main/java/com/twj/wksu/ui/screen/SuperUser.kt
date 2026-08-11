@@ -107,9 +107,7 @@ fun SuperUserScreen(navigator: DestinationsNavigator) {
                             contentDescription = stringResource(id = R.string.settings)
                         )
 
-                        DropdownMenu(
-                        containerColor = Color.Transparent,
-                            expanded = showDropdown, onDismissRequest = {
+                        DropdownMenu(expanded = showDropdown, onDismissRequest = {
                             showDropdown = false
                         }) {
                             DropdownMenuItem(text = {
@@ -196,7 +194,6 @@ private fun AppItem(
     val developerOptionsEnabled = prefs.getBoolean("enable_developer_options", false)
 
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)

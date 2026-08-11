@@ -211,7 +211,6 @@ fun ModuleScreen(navigator: DestinationsNavigator) {
                             contentDescription = stringResource(id = R.string.settings)
                         )
                         DropdownMenu(
-                        containerColor = Color.Transparent,
                             expanded = showDropdown,
                             onDismissRequest = {
                                 showDropdown = false
@@ -853,7 +852,6 @@ fun ModuleItem(
                 onDismissRequest = { showMenu = false }
             ) {
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                     modifier = Modifier.fillMaxWidth(0.95f),
                 ) {
                     Column(modifier = Modifier.padding(24.dp)) {
@@ -938,7 +936,6 @@ fun ModuleItem(
     }
 
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)

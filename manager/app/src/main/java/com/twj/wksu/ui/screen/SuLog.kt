@@ -151,7 +151,6 @@ fun SuLogScreen(
                         )
 
                         DropdownMenu(
-                        containerColor = Color.Transparent,
                             expanded = showFilterMenu,
                             onDismissRequest = { showFilterMenu = false },
                         ) {
@@ -231,7 +230,6 @@ fun SuLogScreen(
                                     Box {
                                         Icon(Icons.Filled.ArrowDropDown, null)
                                         DropdownMenu(
-                        containerColor = Color.Transparent,
                                             expanded = showFileMenu,
                                             onDismissRequest = { showFileMenu = false }
                                         ) {
@@ -294,7 +292,6 @@ private fun LazyListScope.sulogEntriesSection(
         else -> {
             itemsIndexed(entries, key = { index, entry -> "$index-${entry.key}" }) { index, entry ->
                 Card(
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.medium)
@@ -438,8 +435,8 @@ private fun WarningCard(
     action: (@Composable () -> Unit)? = null,
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
     ) {
         Row(
             modifier = Modifier

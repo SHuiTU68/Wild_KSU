@@ -14,6 +14,7 @@ import com.twj.wksu.ui.util.HanziToPinyin
 import com.twj.wksu.ui.util.getModuleSize
 import com.twj.wksu.ui.util.listModules
 import com.twj.wksu.ui.util.zygiskRequired
+import com.twj.wksu.ui.util.isZygiskImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,6 +51,7 @@ class ModuleViewModel : ViewModel() {
         val actionIconPath: String?,
         val webUiIconPath: String?,
         val donate: String,
+        val isZygisk: Boolean,
     )
 
     data class ModuleUpdateInfo(
@@ -138,6 +140,8 @@ class ModuleViewModel : ViewModel() {
                                 obj.optInt("metamodule") != 0 ||
                                 obj.optBoolean("metamodule")
 
+                            val isZygisk = isZygiskImpl(moduleDir)
+
 
                             ModuleInfo(
                                 id,
@@ -158,7 +162,8 @@ class ModuleViewModel : ViewModel() {
                                 metaModule,
                                 obj.optString("actionIcon").takeIf { it.isNotBlank() },
                                 obj.optString("webuiIcon").takeIf { it.isNotBlank() },
-                                obj.optString("donate")
+                                obj.optString("donate"),
+                                isZygisk
                             )
                         }.toList()
                     isNeedRefresh = false

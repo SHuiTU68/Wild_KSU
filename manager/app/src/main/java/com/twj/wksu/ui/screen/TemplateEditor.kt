@@ -33,6 +33,9 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.twj.wksu.Natives
 import com.twj.wksu.R
+import com.twj.wksu.toRawFlags
+import com.twj.wksu.toRootProfileFlags
+import com.twj.wksu.toOrdinalList
 import com.twj.wksu.ui.component.profile.RootProfileConfig
 import com.twj.wksu.ui.util.deleteAppProfileTemplate
 import com.twj.wksu.ui.util.getAppProfileTemplate
@@ -202,7 +205,8 @@ fun TemplateEditorScreen(
                         capabilities = it.capabilities,
                         context = it.context,
                         namespace = it.namespace,
-                        rules = it.rules.split("\n")
+                        rules = it.rules.split("\n"),
+                        flags = it.flags.toRootProfileFlags().toOrdinalList()
                     ).run {
                         if (autoSave) {
                             if (!saveTemplate(this)) {
@@ -218,14 +222,23 @@ fun TemplateEditorScreen(
 }
 
 fun toNativeProfile(templateInfo: TemplateViewModel.TemplateInfo): Natives.Profile {
-    return Natives.Profile().copy(rootTemplate = templateInfo.id,
+    val allFlags = Natives.Profile.RootProfileFlag.entries
+
+    val mappedFlags = templateInfo.flags.mapNotNull { ordinal ->
+        if (ordinal in allFlags.indices) allFlags[ordinal] else null
+    }
+
+    return Natives.Profile().copy(
+        rootTemplate = templateInfo.id,
         uid = templateInfo.uid,
         gid = templateInfo.gid,
         groups = templateInfo.groups,
         capabilities = templateInfo.capabilities,
         context = templateInfo.context,
         namespace = templateInfo.namespace,
-        rules = templateInfo.rules.joinToString("\n").ifBlank { "" })
+        rules = templateInfo.rules.joinToString("\n").ifBlank { "" },
+        flags = mappedFlags.toRawFlags(),
+    )
 }
 
 fun isTemplateValid(template: TemplateViewModel.TemplateInfo): Boolean {

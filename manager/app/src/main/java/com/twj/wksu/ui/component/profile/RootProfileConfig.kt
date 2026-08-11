@@ -27,6 +27,8 @@ import com.twj.wksu.Natives
 import com.twj.wksu.R
 import com.twj.wksu.profile.Capabilities
 import com.twj.wksu.profile.Groups
+import com.twj.wksu.toRawFlags
+import com.twj.wksu.toRootProfileFlags
 import com.twj.wksu.ui.component.rememberCustomDialog
 import com.twj.wksu.ui.util.isSepolicyValid
 
@@ -145,6 +147,19 @@ fun RootProfileConfig(
                 )
             )
         }
+
+        RootProfileFlagPanel(
+            enabled = true,
+            selected = profile.flags.toRootProfileFlags(),
+            onSelectionChange = {
+                onProfileChange(
+                    profile.copy(
+                        flags = it.toRawFlags(),
+                        rootUseDefault = false
+                    )
+                )
+            }
+        )
 
         SELinuxPanel(profile = profile, onSELinuxChange = { domain, rules ->
             onProfileChange(
@@ -301,6 +316,75 @@ fun CapsPanel(
                         modifier = Modifier.padding(3.dp),
                         onClick = { /*TODO*/ },
                         label = { Text(group.display) })
+                }
+            }
+        }
+
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun RootProfileFlagPanel(
+    enabled: Boolean,
+    selected: List<Natives.Profile.RootProfileFlag>,
+    onSelectionChange: (flags: List<Natives.Profile.RootProfileFlag>) -> Unit
+) {
+    val selectFlagsDialog = rememberCustomDialog { dismiss ->
+        val flags = Natives.Profile.RootProfileFlag.entries.toTypedArray().sortedBy { it.display }
+        val options = flags.map { value ->
+            ListOption(
+                titleText = value.display,
+                subtitleText = stringResource(value.desc),
+                selected = selected.contains(value),
+            )
+        }
+
+        val selection = HashSet(selected)
+        ListDialog(
+            state = rememberUseCaseState(visible = true, onFinishedRequest = {
+                onSelectionChange(selection.toList())
+            }, onCloseRequest = {
+                dismiss()
+            }),
+            header = Header.Default(
+                title = stringResource(R.string.profile_flags),
+            ),
+            selection = ListSelection.Multiple(
+                showCheckBoxes = true,
+                options = options
+            ) { indecies, _ ->
+                // Handle selection
+                selection.clear()
+                indecies.forEach { index ->
+                    val flag = flags[index]
+                    selection.add(flag)
+                }
+            }
+        )
+    }
+
+    OutlinedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {
+                    if (enabled) selectFlagsDialog.show()
+                }
+                .padding(16.dp)
+        ) {
+            Text(stringResource(R.string.profile_flags))
+            FlowRow {
+                selected.forEach { flag ->
+                    AssistChip(
+                        modifier = Modifier.padding(3.dp),
+                        onClick = { /*TODO*/ },
+                        label = { Text(flag.display) })
                 }
             }
         }

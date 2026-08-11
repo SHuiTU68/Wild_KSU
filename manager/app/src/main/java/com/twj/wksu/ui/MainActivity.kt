@@ -295,9 +295,6 @@ class MainActivity : ComponentActivity() {
                         )
                     )
                 }
-                var enableBottomBarPref by remember {
-                    mutableStateOf(prefs.getBoolean("enable_bottom_bar", false))
-                }
                 DisposableEffect(prefs) {
                     val listener =
                         android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
@@ -326,9 +323,6 @@ class MainActivity : ComponentActivity() {
                                     },
                                     dimAlpha = prefs.getInt("background_dim", 0) / 100f,
                                 )
-                            }
-                            if (key == "enable_bottom_bar") {
-                                enableBottomBarPref = prefs.getBoolean("enable_bottom_bar", false)
                             }
                         }
                     prefs.registerOnSharedPreferenceChangeListener(listener)
@@ -427,7 +421,7 @@ class MainActivity : ComponentActivity() {
                 val showBottomBar = when (currentDestination?.route) {
                     FlashScreenDestination.route -> false // Hide for FlashScreenDestination
                     ExecuteModuleActionScreenDestination.route -> false // Hide for ExecuteModuleActionScreen
-                    else -> enableBottomBarPref || !isScrollingDown.value
+                    else -> true
                 }
 
                 val baseScheme = MaterialTheme.colorScheme
@@ -457,7 +451,6 @@ class MainActivity : ComponentActivity() {
                             ),
                             LocalBackgroundSettings provides backgroundSettings,
                             LocalUiOverlaySettings provides uiOverlaySettings,
-                            LocalEnableBottomBar provides enableBottomBarPref,
                         ) {
                             CompositionLocalProvider(LocalBaseColorScheme provides baseScheme) {
                                 MaterialTheme(
@@ -722,8 +715,9 @@ private fun BottomBar(
             Surface(
                 modifier = Modifier.wrapContentWidth(),
                 shape = RoundedCornerShape(24.dp),
-                tonalElevation = 3.dp,
-                shadowElevation = 8.dp
+                color = Color.Transparent,
+                tonalElevation = 0.dp,
+                shadowElevation = 0.dp
             ) {
                 val itemSize = 56.dp
                 val itemSpacing = 4.dp

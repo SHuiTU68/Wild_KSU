@@ -754,10 +754,11 @@ private fun StatusCard(
     onClickInstall: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val cardAlpha = LocalUiOverlaySettings.current.cardAlpha
 
     ElevatedCard(
         colors = CardDefaults.elevatedCardColors(containerColor = run {
-            if (ksuVersionParam != null) MaterialTheme.colorScheme.primary
+            if (ksuVersionParam != null) MaterialTheme.colorScheme.primaryContainer.copy(alpha = cardAlpha)
             else if (kernelVersionParam.isGKI()) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.errorContainer
         })

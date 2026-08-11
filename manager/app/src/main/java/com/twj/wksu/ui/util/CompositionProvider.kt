@@ -36,4 +36,3 @@ val LocalBaseColorScheme = staticCompositionLocalOf<ColorScheme> {
     lightColorScheme()
 }
 
-val LocalEnableBottomBar = compositionLocalOf { false }

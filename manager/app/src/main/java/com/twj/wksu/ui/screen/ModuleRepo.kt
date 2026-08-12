@@ -615,12 +615,18 @@ fun ModuleRepoScreen(navigator: DestinationsNavigator) {
                         }
                     },
                     indicator = {
-                        PullToRefreshDefaults.Indicator(
-                            modifier = Modifier.align(Alignment.TopCenter),
-                            isRefreshing = isRefreshing,
+                        PullToRefreshDefaults.IndicatorBox(
                             state = pullRefreshState,
+                            isRefreshing = isRefreshing,
+                            modifier = Modifier.align(Alignment.TopCenter),
                             elevation = 0.dp
-                        )
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center),
+                                color = PullToRefreshDefaults.color,
+                                strokeWidth = PullToRefreshDefaults.StrokeWidth
+                            )
+                        }
                     }
                 ) {
                     LazyColumn(

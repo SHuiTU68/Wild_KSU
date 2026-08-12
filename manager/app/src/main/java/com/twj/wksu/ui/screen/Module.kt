@@ -683,12 +683,18 @@ private fun ModuleList(
             viewModel.fetchModuleList()
         },
         indicator = {
-            PullToRefreshDefaults.Indicator(
-                modifier = Modifier.align(Alignment.TopCenter),
-                isRefreshing = viewModel.isRefreshing,
+            PullToRefreshDefaults.IndicatorBox(
                 state = pullRefreshState,
+                isRefreshing = viewModel.isRefreshing,
+                modifier = Modifier.align(Alignment.TopCenter),
                 elevation = 0.dp
-            )
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = PullToRefreshDefaults.color,
+                    strokeWidth = PullToRefreshDefaults.StrokeWidth
+                )
+            }
         }
     ) {
         val scrollState = LocalScrollState.current

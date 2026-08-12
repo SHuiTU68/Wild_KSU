@@ -52,6 +52,9 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
     var versionInput by rememberSaveable { mutableStateOf("") }
     var mntInput by rememberSaveable { mutableStateOf("") }
 
+    val toolkitOk = stringResource(R.string.toolkit_ok)
+    val toolkitFail = stringResource(R.string.toolkit_fail)
+    val toolkitUidRange = stringResource(R.string.toolkit_uid_range)
     fun runCmd(cmd: String, successMsg: String, failMsg: String, onSuccess: () -> Unit = {}) {
         scope.launch {
             val ok = withContext(Dispatchers.IO) { execKsud(cmd, true) }
@@ -142,15 +145,17 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                         onClick = {
                             val uid = uidInput.toIntOrNull()
                             if (uid == null || uid !in 10000..20000) {
-                                snackBarHost.showSnackbar(
-                                    message = stringResource(R.string.toolkit_uid_range),
-                                    duration = SnackbarDuration.Short
-                                )
+                                scope.launch {
+                                    snackBarHost.showSnackbar(
+                                        message = toolkitUidRange,
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
                             } else {
                                 runCmd(
                                     cmd = "toolkit setuid $uid",
-                                    successMsg = stringResource(R.string.toolkit_ok),
-                                    failMsg = stringResource(R.string.toolkit_fail),
+                                    successMsg = toolkitOk,
+                                    failMsg = toolkitFail,
                                     onSuccess = { managerUid = uid }
                                 )
                             }
@@ -173,8 +178,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                             if (ver != null) {
                                 runCmd(
                                     cmd = "toolkit setver $ver",
-                                    successMsg = stringResource(R.string.toolkit_ok),
-                                    failMsg = stringResource(R.string.toolkit_fail)
+                                    successMsg = toolkitOk,
+                                    failMsg = toolkitFail
                                 )
                             }
                         },
@@ -223,8 +228,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                             if (releaseInput.isBlank() || versionInput.isBlank()) return@Button
                             runCmd(
                                 cmd = "toolkit uname \"$releaseInput\" \"$versionInput\"",
-                                successMsg = stringResource(R.string.toolkit_ok),
-                                failMsg = stringResource(R.string.toolkit_fail)
+                                successMsg = toolkitOk,
+                                failMsg = toolkitFail
                             )
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -235,8 +240,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                         onClick = {
                             runCmd(
                                 cmd = "toolkit uname default default",
-                                successMsg = stringResource(R.string.toolkit_ok),
-                                failMsg = stringResource(R.string.toolkit_fail)
+                                successMsg = toolkitOk,
+                                failMsg = toolkitFail
                             )
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -277,8 +282,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                             if (mntInput.isBlank()) return@Button
                             runCmd(
                                 cmd = "kernel umount add ${mntInput.trim()}",
-                                successMsg = stringResource(R.string.toolkit_ok),
-                                failMsg = stringResource(R.string.toolkit_fail)
+                                successMsg = toolkitOk,
+                                failMsg = toolkitFail
                             )
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -290,8 +295,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                             if (mntInput.isBlank()) return@OutlinedButton
                             runCmd(
                                 cmd = "kernel umount del ${mntInput.trim()}",
-                                successMsg = stringResource(R.string.toolkit_ok),
-                                failMsg = stringResource(R.string.toolkit_fail)
+                                successMsg = toolkitOk,
+                                failMsg = toolkitFail
                             )
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -302,8 +307,8 @@ fun ToolkitScreen(navigator: DestinationsNavigator) {
                         onClick = {
                             runCmd(
                                 cmd = "kernel umount wipe",
-                                successMsg = stringResource(R.string.toolkit_ok),
-                                failMsg = stringResource(R.string.toolkit_fail)
+                                successMsg = toolkitOk,
+                                failMsg = toolkitFail
                             )
                         },
                         modifier = Modifier.fillMaxWidth()

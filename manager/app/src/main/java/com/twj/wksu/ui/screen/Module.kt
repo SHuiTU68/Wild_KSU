@@ -34,6 +34,8 @@ import androidx.compose.material.icons.outlined.Restore
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -672,11 +674,21 @@ private fun ModuleList(
             failedRestore.format(module.name)
         }
     }
+    val pullRefreshState = rememberPullToRefreshState()
     PullToRefreshBox(
         modifier = boxModifier,
+        state = pullRefreshState,
         isRefreshing = viewModel.isRefreshing,
         onRefresh = {
             viewModel.fetchModuleList()
+        },
+        indicator = {
+            PullToRefreshDefaults.Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isRefreshing = viewModel.isRefreshing,
+                state = pullRefreshState,
+                elevation = 0.dp
+            )
         }
     ) {
         val scrollState = LocalScrollState.current

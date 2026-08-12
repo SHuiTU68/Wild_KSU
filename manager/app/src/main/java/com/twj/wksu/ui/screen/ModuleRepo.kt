@@ -12,6 +12,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -599,16 +601,26 @@ fun ModuleRepoScreen(navigator: DestinationsNavigator) {
 
                 val isRefreshing = moduleState is ModuleRepoState.Loading
 
+                val pullRefreshState = rememberPullToRefreshState()
                 PullToRefreshBox(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues),
+                    state = pullRefreshState,
                     isRefreshing = isRefreshing,
                     onRefresh = {
                         scope.launch {
                             moduleState = ModuleRepoState.Loading
                             loadModules()
                         }
+                    },
+                    indicator = {
+                        PullToRefreshDefaults.Indicator(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            isRefreshing = isRefreshing,
+                            state = pullRefreshState,
+                            elevation = 0.dp
+                        )
                     }
                 ) {
                     LazyColumn(

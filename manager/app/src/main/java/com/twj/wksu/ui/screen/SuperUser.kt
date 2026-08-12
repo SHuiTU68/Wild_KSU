@@ -15,6 +15,9 @@ import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.pullToRefreshIndicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -138,12 +141,42 @@ fun SuperUserScreen(navigator: DestinationsNavigator) {
         },
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
     ) { innerPadding ->
+        val pullRefreshState = rememberPullToRefreshState()
         PullToRefreshBox(
             modifier = Modifier.padding(innerPadding),
+            state = pullRefreshState,
+            isRefreshing = viewModel.isRefreshing,
             onRefresh = {
                 scope.launch { viewModel.fetchAppList() }
             },
-            isRefreshing = viewModel.isRefreshing
+            indicator = {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .pullToRefreshIndicator(
+                            state = pullRefreshState,
+                            isRefreshing = viewModel.isRefreshing,
+                            containerColor = PullToRefreshDefaults.containerColor,
+                            elevation = 0.dp,
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (viewModel.isRefreshing) {
+                        CircularProgressIndicator(
+                            strokeWidth = 2.5.dp,
+                            color = PullToRefreshDefaults.indicatorColor,
+                            modifier = Modifier.size(16.dp),
+                        )
+                    } else {
+                        CircularProgressIndicator(
+                            progress = { pullRefreshState.distanceFraction },
+                            strokeWidth = 2.5.dp,
+                            color = PullToRefreshDefaults.indicatorColor,
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
+            }
         ) {
             val scrollState = LocalScrollState.current
             val isNavBarHidden = scrollState?.isScrollingDown?.value ?: false

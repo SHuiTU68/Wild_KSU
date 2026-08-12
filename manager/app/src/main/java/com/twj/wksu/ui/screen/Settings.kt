@@ -445,6 +445,24 @@ private fun SecurityCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
+                    .clickable { navigator.navigate(ToolkitScreenDestination) },
+                colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                leadingContent = { Icon(Icons.Filled.Build, null) },
+                headlineContent = {
+                    Text(
+                        text = stringResource(R.string.toolkit),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
+                supportingContent = {
+                    Text(stringResource(R.string.toolkit_summary))
+                }
+            )
+            ListItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable { navigator.navigate(BackupRestoreScreenDestination) },
                 colors = ListItemDefaults.colors(containerColor = Color.Transparent),
                 leadingContent = { Icon(Icons.Filled.Backup, null) },

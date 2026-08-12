@@ -122,6 +122,11 @@ enum Commands {
         #[command(subcommand)]
         command: Kernel,
     },
+    /// ksu_toolkit: kernel tweaks (requires root)
+    Toolkit {
+        #[command(subcommand)]
+        command: ToolkitOp,
+    },
 
     /// Resetprop - Magisk-compatible system property tool
     #[command(disable_help_flag = true)]
@@ -477,6 +482,28 @@ enum UmountOp {
 }
 
 #[derive(clap::Subcommand, Debug)]
+enum ToolkitOp {
+    /// Set manager uid (range 10000..20000)
+    Setuid {
+        /// new manager uid
+        uid: u32,
+    },
+    /// Get current manager uid
+    Getuid,
+    /// Override kernel ksu version
+    Setver {
+        /// new ksu version number
+        version: u32,
+    },
+    /// Spoof kernel uname (release + version), use "default" to reset
+    Uname {
+        /// kernel release string (e.g. 6.6.118)
+        release: String,
+        /// kernel version string (e.g. "#1 SMP PREEMPT")
+        version: String,
+    },
+}
+#[derive(clap::Subcommand, Debug)]
 enum SusfsAction {
     /// Show if susfs is supported
     Support,
@@ -784,6 +811,18 @@ pub fn run() -> Result<()> {
             Kernel::NotifyModuleMounted => {
                 ksucalls::report_module_mounted();
                 Ok(())
+            }
+        },
+        Commands::Toolkit { command } => match command {
+            ToolkitOp::Setuid { uid } => ksucalls::set_manager_uid(uid),
+            ToolkitOp::Getuid => {
+                let uid = ksucalls::get_manager_uid()?;
+                println!("Manager UID: {uid}");
+                Ok(())
+            }
+            ToolkitOp::Setver { version } => ksucalls::set_ksu_version(version),
+            ToolkitOp::Uname { release, version } => {
+                ksucalls::spoof_uname(&release, &version)
             }
         },
         Commands::Initrc { command } => match command {

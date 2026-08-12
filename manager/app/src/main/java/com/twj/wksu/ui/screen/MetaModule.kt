@@ -282,7 +282,7 @@ fun MetaModuleScreen(navigator: DestinationsNavigator) {
                                 )
                             } else {
                                 CircularProgressIndicator(
-                                    progress = { state.distanceFraction },
+                                    progress = { pullRefreshState.distanceFraction },
                                     strokeWidth = 2.5.dp,
                                     color = PullToRefreshDefaults.indicatorColor,
                                     modifier = Modifier.size(16.dp),

@@ -295,20 +295,13 @@ pub fn set_ksu_no_new_privs() -> anyhow::Result<()> {
     Ok(())
 }
 
-/// ksu_toolkit: change manager uid via sys_reboot supercall (root only)
+/// ksu_toolkit: change manager uid via ioctl on ksu_driver fd (root only)
 pub fn set_manager_uid(uid: u32) -> anyhow::Result<()> {
     if !(10000..20000).contains(&uid) {
         bail!("manager uid must be in range 10000..20000");
     }
-    unsafe {
-        libc::syscall(
-            libc::SYS_reboot,
-            ksu_uapi::KSU_INSTALL_MAGIC1,
-            ksu_uapi::CHANGE_MANAGER_UID,
-            uid,
-            0usize,
-        );
-    }
+    let mut cmd = ksu_uapi::ksu_change_manager_uid_cmd { uid };
+    ksuctl(ksu_uapi::KSU_IOCTL_CHANGE_MANAGER_UID, &raw mut cmd)?;
     Ok(())
 }
 
@@ -319,42 +312,26 @@ pub fn get_manager_uid() -> anyhow::Result<u32> {
     Ok(cmd.appid)
 }
 
-/// ksu_toolkit: override kernel ksu version
+/// ksu_toolkit: override kernel ksu version via ioctl (root only)
 pub fn set_ksu_version(version: u32) -> anyhow::Result<()> {
-    unsafe {
-        libc::syscall(
-            libc::SYS_reboot,
-            ksu_uapi::KSU_INSTALL_MAGIC1,
-            ksu_uapi::CHANGE_KSUVER,
-            version,
-            0usize,
-        );
-    }
+    let mut cmd = ksu_uapi::ksu_change_ksuver_cmd { version };
+    ksuctl(ksu_uapi::KSU_IOCTL_CHANGE_KSUVER, &raw mut cmd)?;
     Ok(())
 }
 
-/// ksu_toolkit: spoof kernel uname (release/version), pass "default" to reset
+/// ksu_toolkit: spoof kernel uname (release/version) via ioctl, pass "default" to reset
 pub fn spoof_uname(release: &str, version: &str) -> anyhow::Result<()> {
     let rel = release.as_bytes();
     let ver = version.as_bytes();
     if rel.len() >= 65 || ver.len() >= 64 {
         bail!("release/version must be shorter than 64 bytes");
     }
-    // kernel expects: arg4 -> u64(&char*) -> char* -> "release\0version\0"
+    // kernel expects: user pointer -> "release\0version\0"
     let mut buf = [0u8; 130];
     buf[..rel.len()].copy_from_slice(rel);
     let off = rel.len() + 1;
     buf[off..off + ver.len()].copy_from_slice(ver);
-    let mut char_ptr: u64 = buf.as_ptr() as u64;
-    let arg4: *const libc::c_void = (&mut char_ptr as *mut u64).cast();
-    unsafe {
-        libc::syscall(
-            libc::SYS_reboot,
-            ksu_uapi::KSU_INSTALL_MAGIC1,
-            ksu_uapi::CHANGE_SPOOF_UNAME,
-            0usize,
-            arg4,
-        );
-    }
+    let mut cmd = ksu_uapi::ksu_spoof_uname_cmd { data: buf.as_ptr() as u64 };
+    ksuctl(ksu_uapi::KSU_IOCTL_CHANGE_SPOOF_UNAME, &raw mut cmd)?;
     Ok(())
 }

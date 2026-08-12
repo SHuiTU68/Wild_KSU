@@ -778,6 +778,40 @@ static int do_disable_escape_to_root(void __user *arg)
     return 0;
 }
 
+static int do_change_manager_uid(void __user *arg)
+{
+    struct ksu_change_manager_uid_cmd cmd;
+    if (copy_from_user(&cmd, arg, sizeof(cmd))) {
+        pr_err("change_manager_uid: copy_from_user failed
+");
+        return -EFAULT;
+    }
+    return ksu_supercall_change_manager_uid(cmd.uid);
+}
+static int do_change_ksuver(void __user *arg)
+{
+    struct ksu_change_ksuver_cmd cmd;
+    if (copy_from_user(&cmd, arg, sizeof(cmd))) {
+        pr_err("change_ksuver: copy_from_user failed
+");
+        return -EFAULT;
+    }
+    return ksu_supercall_change_ksuver(cmd.version);
+}
+static int do_spoof_uname(void __user *arg)
+{
+    struct ksu_spoof_uname_cmd cmd;
+    if (copy_from_user(&cmd, arg, sizeof(cmd))) {
+        pr_err("spoof_uname: copy_from_user failed
+");
+        return -EFAULT;
+    }
+    return ksu_supercall_spoof_uname((const void __user *)(unsigned long)cmd.data);
+}
+static int do_sulog_compat_dump(void __user *arg)
+{
+    return ksu_supercall_sulog_compat_dump(arg);
+}
 // IOCTL handlers mapping table
 // clang-format off
 static const struct ksu_ioctl_cmd_map ksu_ioctl_handlers[] = {
@@ -936,6 +970,30 @@ static const struct ksu_ioctl_cmd_map ksu_ioctl_handlers[] = {
         .name = "GET_VERSION_TAG",
         .handler = do_get_version_tag,
         .perm_check = manager_or_root
+    },
+    {
+        .cmd = KSU_IOCTL_CHANGE_MANAGER_UID,
+        .name = "CHANGE_MANAGER_UID",
+        .handler = do_change_manager_uid,
+        .perm_check = only_root
+    },
+    {
+        .cmd = KSU_IOCTL_CHANGE_KSUVER,
+        .name = "CHANGE_KSUVER",
+        .handler = do_change_ksuver,
+        .perm_check = only_root
+    },
+    {
+        .cmd = KSU_IOCTL_CHANGE_SPOOF_UNAME,
+        .name = "CHANGE_SPOOF_UNAME",
+        .handler = do_spoof_uname,
+        .perm_check = only_root
+    },
+    {
+        .cmd = KSU_IOCTL_SULOG_COMPAT_DUMP,
+        .name = "SULOG_COMPAT_DUMP",
+        .handler = do_sulog_compat_dump,
+        .perm_check = only_root
     },
     {
         .cmd = 0,

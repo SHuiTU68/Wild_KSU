@@ -194,5 +194,19 @@ static const __u32 KSU_IOCTL_GET_SULOG_FD = _IOW('K', 20, struct ksu_get_sulog_f
 static const __u32 KSU_IOCTL_DISABLE_ESCAPE_TO_ROOT = _IO('K', 21);
 static const __u32 KSU_IOCTL_GET_HOOK_MODE = _IOC(_IOC_READ, 'K', 98, 0);
 static const __u32 KSU_IOCTL_GET_VERSION_TAG = _IOC(_IOC_READ, 'K', 99, 0);
+// Toolkit supercalls over ioctl (root only, replaces sys_reboot kprobe path)
+static const __u32 KSU_IOCTL_CHANGE_MANAGER_UID = _IOC(_IOC_WRITE, 'K', 22, 0);
+static const __u32 KSU_IOCTL_CHANGE_KSUVER = _IOC(_IOC_WRITE, 'K', 23, 0);
+static const __u32 KSU_IOCTL_CHANGE_SPOOF_UNAME = _IOC(_IOC_WRITE, 'K', 24, 0);
+static const __u32 KSU_IOCTL_SULOG_COMPAT_DUMP = _IOC(_IOC_READ | _IOC_WRITE, 'K', 25, 0);
+struct ksu_change_manager_uid_cmd {
+    __u32 uid; /* Input: new manager uid (10000-20000) */
+};
+struct ksu_change_ksuver_cmd {
+    __u32 version; /* Input: ksu version override */
+};
+struct ksu_spoof_uname_cmd {
+    __aligned_u64 data; /* Input: user pointer to "release version " */
+};
 
 #endif

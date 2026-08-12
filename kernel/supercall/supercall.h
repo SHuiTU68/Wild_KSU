@@ -18,6 +18,11 @@ struct ksu_ioctl_cmd_map {
 
 // Install KSU fd to current process
 int ksu_install_fd(void);
+// Toolkit supercalls (ioctl backend, root only, no kprobe)
+int ksu_supercall_change_manager_uid(__u32 uid);
+int ksu_supercall_change_ksuver(__u32 version);
+int ksu_supercall_spoof_uname(const void __user *user_data);
+int ksu_supercall_sulog_compat_dump(void __user *uptr);
 
 void ksu_supercalls_init(void);
 void ksu_supercalls_exit(void);

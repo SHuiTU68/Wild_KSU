@@ -435,6 +435,11 @@ class MainActivity : ComponentActivity() {
                         surfaceContainer = baseScheme.surfaceContainer.copy(alpha = cardAlpha),
                         surfaceContainerHigh = baseScheme.surfaceContainerHigh.copy(alpha = cardAlpha),
                         surfaceContainerHighest = baseScheme.surfaceContainerHighest.copy(alpha = cardAlpha),
+                        primaryContainer = baseScheme.primaryContainer.copy(alpha = cardAlpha),
+                        secondaryContainer = baseScheme.secondaryContainer.copy(alpha = cardAlpha),
+                        tertiaryContainer = baseScheme.tertiaryContainer.copy(alpha = cardAlpha),
+                        errorContainer = baseScheme.errorContainer.copy(alpha = cardAlpha),
+                        outlineVariant = baseScheme.outlineVariant.copy(alpha = cardAlpha),
                     )
                 }
                 Scaffold(

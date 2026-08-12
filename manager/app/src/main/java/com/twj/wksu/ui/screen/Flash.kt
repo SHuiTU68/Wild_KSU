@@ -243,7 +243,8 @@ fun FlashScreen(
         floatingActionButton = {
             if (flashIt is FlashIt.FlashModules && (flashing == FlashingStatus.SUCCESS)) {
                 // Reboot button for modules flashing
-                ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = {
                         scope.launch {
                             withContext(Dispatchers.IO) {
@@ -257,7 +258,8 @@ fun FlashScreen(
             }
 
             if (flashIt is FlashIt.FlashAnyKernel && (flashing == FlashingStatus.SUCCESS)) {
-                ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = {
                         scope.launch {
                             withContext(Dispatchers.IO) {
@@ -271,7 +273,8 @@ fun FlashScreen(
             }
 
             if (flashIt is FlashIt.FlashAnyKernel && (flashing == FlashingStatus.FAILED)) {
-                ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     text = { Text(text = stringResource(R.string.close)) },
                     icon = { Icon(Icons.Filled.Close, contentDescription = null) },
                     onClick = {
@@ -282,7 +285,8 @@ fun FlashScreen(
 
             if (flashIt is FlashIt.FlashModules && (flashing == FlashingStatus.FAILED)) {
                 // Close button for modules flashing
-                ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     text = { Text(text = stringResource(R.string.close)) },
                     icon = { Icon(Icons.Filled.Close, contentDescription = null) },
                     onClick = {
@@ -297,7 +301,8 @@ fun FlashScreen(
 
                 if (flashing == FlashingStatus.FAILED) {
                     // Always show close on failure
-                    ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                        elevation = FloatingActionButtonDefaults.elevation(0.dp),
                         text = { Text(text = stringResource(R.string.close)) },
                         icon = { Icon(Icons.Filled.Close, contentDescription = null) },
                         onClick = {
@@ -307,7 +312,8 @@ fun FlashScreen(
                 } else if (flashing == FlashingStatus.SUCCESS) {
                     if (isLocalPatch) {
                         // Local patching: show only Close
-                        ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                            elevation = FloatingActionButtonDefaults.elevation(0.dp),
                             text = { Text(text = stringResource(R.string.close)) },
                             icon = { Icon(Icons.Filled.Close, contentDescription = null) },
                             onClick = {
@@ -316,7 +322,8 @@ fun FlashScreen(
                         )
                     } else if (isDirectOrOta) {
                         // Direct install or OTA inactive slot: show only Reboot
-                        ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                            elevation = FloatingActionButtonDefaults.elevation(0.dp),
                             onClick = {
                                 scope.launch {
                                     withContext(Dispatchers.IO) {
@@ -334,7 +341,8 @@ fun FlashScreen(
             if ((flashIt is FlashIt.FlashUninstall || flashIt is FlashIt.FlashRestore) && (flashing == FlashingStatus.SUCCESS || flashing == FlashingStatus.FAILED)) {
                 if (flashing == FlashingStatus.SUCCESS) {
                     // Show reboot button on successful uninstall or restore
-                    ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                        elevation = FloatingActionButtonDefaults.elevation(0.dp),
                         onClick = {
                             scope.launch {
                                 withContext(Dispatchers.IO) {
@@ -347,7 +355,8 @@ fun FlashScreen(
                     )
                 } else {
                     // Show close button on failure
-                    ExtendedFloatingActionButton(
+ExtendedFloatingActionButton(
+                        elevation = FloatingActionButtonDefaults.elevation(0.dp),
                         text = { Text(text = stringResource(R.string.close)) },
                         icon = { Icon(Icons.Filled.Close, contentDescription = null) },
                         onClick = {

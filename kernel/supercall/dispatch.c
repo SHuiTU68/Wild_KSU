@@ -782,8 +782,7 @@ static int do_change_manager_uid(void __user *arg)
 {
     struct ksu_change_manager_uid_cmd cmd;
     if (copy_from_user(&cmd, arg, sizeof(cmd))) {
-        pr_err("change_manager_uid: copy_from_user failed
-");
+        pr_err("change_manager_uid: copy_from_user failed\n");
         return -EFAULT;
     }
     return ksu_supercall_change_manager_uid(cmd.uid);
@@ -792,8 +791,7 @@ static int do_change_ksuver(void __user *arg)
 {
     struct ksu_change_ksuver_cmd cmd;
     if (copy_from_user(&cmd, arg, sizeof(cmd))) {
-        pr_err("change_ksuver: copy_from_user failed
-");
+        pr_err("change_ksuver: copy_from_user failed\n");
         return -EFAULT;
     }
     return ksu_supercall_change_ksuver(cmd.version);
@@ -802,8 +800,7 @@ static int do_spoof_uname(void __user *arg)
 {
     struct ksu_spoof_uname_cmd cmd;
     if (copy_from_user(&cmd, arg, sizeof(cmd))) {
-        pr_err("spoof_uname: copy_from_user failed
-");
+        pr_err("spoof_uname: copy_from_user failed\n");
         return -EFAULT;
     }
     return ksu_supercall_spoof_uname((const void __user *)(unsigned long)cmd.data);

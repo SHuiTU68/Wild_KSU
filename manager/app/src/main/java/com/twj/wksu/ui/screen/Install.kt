@@ -161,7 +161,7 @@ fun InstallScreen(navigator: DestinationsNavigator) {
     } else null
 
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopBar(
                 onBack = dropUnlessResumed { navigator.popBackStack() },

@@ -123,6 +123,15 @@
     <string name="toolkit_umount_add">Add</string>
     <string name="toolkit_umount_del">Remove</string>
     <string name="toolkit_umount_wipe">Wipe list</string>
+    <string name="toolkit_crown_page">Crown</string>
+    <string name="toolkit_uname_page">Uname</string>
+    <string name="toolkit_umount_page">Umount</string>
+    <string name="toolkit_auto_detect">Auto-detect manager</string>
+    <string name="toolkit_auto_detect_summary">Detect installed managers and apply its UID</string>
+    <string name="toolkit_detected_uid">Detected manager UID</string>
+    <string name="toolkit_not_found">No installed manager found</string>
+    <string name="toolkit_apply_detected">Apply detected UID</string>
+    <string name="toolkit_manual_hint">Manual input mode</string>
     <string name="toolkit_ok">Done</string>
     <string name="toolkit_fail">Failed</string>
     <string name="backup_restore">Backup &amp; Restore</string>

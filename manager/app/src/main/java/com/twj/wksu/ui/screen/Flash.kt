@@ -218,7 +218,7 @@ fun FlashScreen(
     }
 
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopBar(
                 flashing,

@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.twj.wksu.ui.util.LocalBaseColorScheme
-import com.twj.wksu.ui.util.LocalBackgroundSettings
 import com.twj.wksu.ui.util.LocalUiOverlaySettings
 
 @Composable
@@ -28,7 +27,6 @@ fun BlurDialog(
 ) {
     val baseScheme = LocalBaseColorScheme.current
     val cardAlpha = LocalUiOverlaySettings.current.cardAlpha
-    val hasWallpaper = LocalBackgroundSettings.current.uri != null
 
     Dialog(
         onDismissRequest = onDismissRequest
@@ -53,7 +51,7 @@ fun BlurDialog(
         Card(
             modifier = Modifier.fillMaxWidth(0.95f),
             colors = CardDefaults.cardColors(
-                containerColor = if (hasWallpaper) baseScheme.surfaceContainer else baseScheme.surfaceContainer.copy(alpha = cardAlpha),
+                containerColor = baseScheme.surfaceContainer.copy(alpha = cardAlpha),
             ),
         ) {
             Column(modifier = Modifier.padding(24.dp)) {

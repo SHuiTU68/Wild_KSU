@@ -2,7 +2,9 @@ package com.twj.wksu.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.palette.graphics.Palette
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -49,7 +51,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.Velocity
 import androidx.lifecycle.lifecycleScope
 import kotlin.math.abs
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.NavHostAnimatedDestinationStyle
 import com.ramcosta.composedestinations.generated.NavGraphs
@@ -212,6 +216,7 @@ class MainActivity : ComponentActivity() {
     var amoledModeState = mutableStateOf(false)
     var appThemeState = mutableStateOf(AppTheme.AUTO)
     var appThemeCustomColorState = mutableIntStateOf(PRIMARY.toArgb())
+    var wallpaperPaletteColor by mutableStateOf<Int?>(null)
     private val handler = Handler(Looper.getMainLooper())
 
     val moduleViewModel: ModuleViewModel by viewModels()
@@ -263,7 +268,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             KernelSUTheme(
                 appTheme = appThemeState.value,
-                customColor = Color(appThemeCustomColorState.intValue)
+                customColor = Color(appThemeCustomColorState.intValue),
+                wallpaperColor = wallpaperPaletteColor
             ) {
                 val navController = rememberNavController()
                 val snackBarHostState = remember { SnackbarHostState() }
@@ -294,6 +300,36 @@ class MainActivity : ComponentActivity() {
                             dimAlpha = prefs.getInt("background_dim", 0) / 100f,
                         )
                     )
+                }
+                LaunchedEffect(backgroundSettings.uri, backgroundSettings.isVideo) {
+                    val uri = backgroundSettings.uri
+                    if (uri != null && !backgroundSettings.isVideo) {
+                        wallpaperPaletteColor = withContext(Dispatchers.IO) {
+                            runCatching {
+                                val resolver = context.contentResolver
+                                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                                resolver.openInputStream(Uri.parse(uri))?.use {
+                                    BitmapFactory.decodeStream(it, null, bounds)
+                                }
+                                var sample = 1
+                                while (bounds.outWidth / sample > 512) sample *= 2
+                                val bmp = resolver.openInputStream(Uri.parse(uri))?.use {
+                                    BitmapFactory.decodeStream(
+                                        it, null,
+                                        BitmapFactory.Options().apply { inSampleSize = sample }
+                                    )
+                                } ?: return@runCatching null
+                                val palette = Palette.from(bmp).maximumColorCount(16).generate()
+                                val swatch = palette.vibrantSwatch
+                                    ?: palette.dominantSwatch
+                                    ?: palette.mutedSwatch
+                                    ?: palette.darkVibrantSwatch
+                                swatch?.rgb
+                            }.getOrNull()
+                        }
+                    } else {
+                        wallpaperPaletteColor = null
+                    }
                 }
                 DisposableEffect(prefs) {
                     val listener =

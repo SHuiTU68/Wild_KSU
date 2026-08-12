@@ -153,6 +153,7 @@ dependencies {
 
     implementation(libs.markdown)
     implementation(libs.androidx.webkit)
+    implementation(libs.androidx.palette.ktx)
 
     implementation(libs.lsposed.cxx)
 

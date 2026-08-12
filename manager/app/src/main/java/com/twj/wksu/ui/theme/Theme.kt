@@ -36,6 +36,52 @@ private val LightColorScheme = lightColorScheme(
     tertiary = SECONDARY_LIGHT
 )
 
+private fun m3SchemeFromArgb(argb: Int, useDark: Boolean): ColorScheme {
+    val scheme = if (useDark) Scheme.dark(argb) else Scheme.light(argb)
+    val corePalette = CorePalette.of(argb)
+    val hct = Hct.fromInt(argb)
+    val neutralPalette = TonalPalette.fromHueAndChroma(hct.hue, 4.0)
+    return ColorScheme(
+        primary = Color(scheme.primary),
+        onPrimary = Color(scheme.onPrimary),
+        primaryContainer = Color(scheme.primaryContainer),
+        onPrimaryContainer = Color(scheme.onPrimaryContainer),
+        inversePrimary = Color(scheme.inversePrimary),
+        secondary = Color(scheme.secondary),
+        onSecondary = Color(scheme.onSecondary),
+        secondaryContainer = Color(scheme.secondaryContainer),
+        onSecondaryContainer = Color(scheme.onSecondaryContainer),
+        tertiary = Color(scheme.tertiary),
+        onTertiary = Color(scheme.onTertiary),
+        tertiaryContainer = Color(scheme.tertiaryContainer),
+        onTertiaryContainer = Color(scheme.onTertiaryContainer),
+        background = Color(scheme.background),
+        onBackground = Color(scheme.onBackground),
+        surface = Color(scheme.surface),
+        onSurface = Color(scheme.onSurface),
+        surfaceVariant = Color(scheme.surfaceVariant),
+        onSurfaceVariant = Color(scheme.onSurfaceVariant),
+        surfaceTint = Color(scheme.primary),
+        inverseSurface = Color(scheme.inverseSurface),
+        inverseOnSurface = Color(scheme.inverseOnSurface),
+        error = Color(scheme.error),
+        onError = Color(scheme.onError),
+        errorContainer = Color(scheme.errorContainer),
+        onErrorContainer = Color(scheme.onErrorContainer),
+        outline = Color(scheme.outline),
+        outlineVariant = Color(scheme.outlineVariant),
+        scrim = Color(scheme.scrim),
+        // Surface Container Roles (derived from Neutral Palette)
+        surfaceBright = Color(neutralPalette.tone(if (useDark) 24 else 98)),
+        surfaceDim = Color(neutralPalette.tone(if (useDark) 6 else 87)),
+        surfaceContainer = Color(neutralPalette.tone(if (useDark) 12 else 94)),
+        surfaceContainerHigh = Color(neutralPalette.tone(if (useDark) 17 else 92)),
+        surfaceContainerHighest = Color(neutralPalette.tone(if (useDark) 22 else 90)),
+        surfaceContainerLow = Color(neutralPalette.tone(if (useDark) 10 else 96)),
+        surfaceContainerLowest = Color(neutralPalette.tone(if (useDark) 4 else 100))
+    )
+}
+
 fun Color.blend(other: Color, ratio: Float): Color {
     val inverse = 1f - ratio
     return Color(
@@ -50,6 +96,7 @@ fun Color.blend(other: Color, ratio: Float): Color {
 fun KernelSUTheme(
     appTheme: AppTheme = AppTheme.AUTO,
     customColor: Color? = null,
+    wallpaperColor: Int? = null,
     content: @Composable () -> Unit
 ) {
     val systemDark = isSystemInDarkTheme()
@@ -57,7 +104,16 @@ fun KernelSUTheme(
     val context = LocalContext.current
     val prefs = remember { context.getSharedPreferences("settings", Context.MODE_PRIVATE) }
 
-    val (colorScheme, darkTheme) = when (appTheme) {
+    val (colorScheme, darkTheme) = if (wallpaperColor != null) {
+        // Custom wallpaper: theme color extracted from the wallpaper itself
+        val customBaseMode = prefs.getString("theme_custom_base_mode", "system")
+        val useDark = when (customBaseMode) {
+            "light" -> false
+            "dark", "amoled" -> true
+            else -> systemDark
+        }
+        m3SchemeFromArgb(wallpaperColor, useDark) to useDark
+    } else when (appTheme) {
         AppTheme.AUTO -> {
             val scheme = if (dynamicColor) {
                 if (systemDark) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -106,53 +162,7 @@ fun KernelSUTheme(
                 else -> systemDark
             }
 
-            val argb = colorToUse.toArgb()
-
-            val scheme = if (useDark) Scheme.dark(argb) else Scheme.light(argb)
-            val corePalette = CorePalette.of(argb)
-            val hct = Hct.fromInt(colorToUse.toArgb().toInt())
-            val neutralPalette = TonalPalette.fromHueAndChroma(hct.hue, 4.0)
-
-            var m3Scheme = ColorScheme(
-                primary = Color(scheme.primary),
-                onPrimary = Color(scheme.onPrimary),
-                primaryContainer = Color(scheme.primaryContainer),
-                onPrimaryContainer = Color(scheme.onPrimaryContainer),
-                inversePrimary = Color(scheme.inversePrimary),
-                secondary = Color(scheme.secondary),
-                onSecondary = Color(scheme.onSecondary),
-                secondaryContainer = Color(scheme.secondaryContainer),
-                onSecondaryContainer = Color(scheme.onSecondaryContainer),
-                tertiary = Color(scheme.tertiary),
-                onTertiary = Color(scheme.onTertiary),
-                tertiaryContainer = Color(scheme.tertiaryContainer),
-                onTertiaryContainer = Color(scheme.onTertiaryContainer),
-                background = Color(scheme.background),
-                onBackground = Color(scheme.onBackground),
-                surface = Color(scheme.surface),
-                onSurface = Color(scheme.onSurface),
-                surfaceVariant = Color(scheme.surfaceVariant),
-                onSurfaceVariant = Color(scheme.onSurfaceVariant),
-                surfaceTint = Color(scheme.primary),
-                inverseSurface = Color(scheme.inverseSurface),
-                inverseOnSurface = Color(scheme.inverseOnSurface),
-                error = Color(scheme.error),
-                onError = Color(scheme.onError),
-                errorContainer = Color(scheme.errorContainer),
-                onErrorContainer = Color(scheme.onErrorContainer),
-                outline = Color(scheme.outline),
-                outlineVariant = Color(scheme.outlineVariant),
-                scrim = Color(scheme.scrim),
-
-                // Surface Container Roles (derived from Neutral Palette)
-                surfaceBright = Color(neutralPalette.tone(if (useDark) 24 else 98)),
-                surfaceDim = Color(neutralPalette.tone(if (useDark) 6 else 87)),
-                surfaceContainer = Color(neutralPalette.tone(if (useDark) 12 else 94)),
-                surfaceContainerHigh = Color(neutralPalette.tone(if (useDark) 17 else 92)),
-                surfaceContainerHighest = Color(neutralPalette.tone(if (useDark) 22 else 90)),
-                surfaceContainerLow = Color(neutralPalette.tone(if (useDark) 10 else 96)),
-                surfaceContainerLowest = Color(neutralPalette.tone(if (useDark) 4 else 100))
-            )
+            var m3Scheme = m3SchemeFromArgb(colorToUse.toArgb(), useDark)
 
             if (customBaseMode == "amoled") {
                 m3Scheme = m3Scheme.copy(

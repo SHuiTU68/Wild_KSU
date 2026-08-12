@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.pullToRefreshIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -615,17 +616,31 @@ fun ModuleRepoScreen(navigator: DestinationsNavigator) {
                         }
                     },
                     indicator = {
-                        PullToRefreshDefaults.IndicatorBox(
-                            state = pullRefreshState,
-                            isRefreshing = isRefreshing,
-                            modifier = Modifier.align(Alignment.TopCenter),
-                            elevation = 0.dp
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .pullToRefreshIndicator(
+                                    state = pullRefreshState,
+                                    isRefreshing = isRefreshing,
+                                    containerColor = PullToRefreshDefaults.containerColor,
+                                    elevation = 0.dp,
+                                ),
+                            contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.Center),
-                                color = PullToRefreshDefaults.color,
-                                strokeWidth = PullToRefreshDefaults.StrokeWidth
-                            )
+                            if (isRefreshing) {
+                                CircularProgressIndicator(
+                                    strokeWidth = 2.5.dp,
+                                    color = PullToRefreshDefaults.indicatorColor,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                            } else {
+                                CircularProgressIndicator(
+                                    progress = { state.distanceFraction },
+                                    strokeWidth = 2.5.dp,
+                                    color = PullToRefreshDefaults.indicatorColor,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                            }
                         }
                     }
                 ) {
